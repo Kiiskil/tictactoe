@@ -37,7 +37,8 @@ Tile.prototype.win = function(turn){
     for(let i=0; i < winline; i++){
         if(this.locx+i < grid_size && grid[this.locx+i][this.locy].class == turn && grid[this.locx+i][this.locy].class != null){
             k++;
-            console.log("What")
+            console.log("What");
+            console.log(this.locx+i)
         }
         if(this.locx-i > 0 && grid[this.locx-i][this.locy].class == turn && grid[this.locx-i][this.locy].class != null){
             console.log("nosense");
