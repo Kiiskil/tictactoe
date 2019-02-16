@@ -1,6 +1,5 @@
 //TIC-TAC-TOE
 let grid;
-let grid_size;
 let cols;
 let rows;
 let w = 30;
