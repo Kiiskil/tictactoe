@@ -39,6 +39,7 @@ Tile.prototype.win = function(turn){
             k++;
         }
         if(this.locx-i > 0 && grid[this.locx-i][this.locy].class == turn && grid[this.locx-i][this.locy].class != null){
+            console.log(this.locx);
             k++;
         }
         console.log(k);
