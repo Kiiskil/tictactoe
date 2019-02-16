@@ -45,6 +45,7 @@ Tile.prototype.win = function(turn){
         if(this.locx-i >= 0 && grid[this.locx-i][this.locy].class == turn && grid[this.locx-i][this.locy].class != null){
             k++;
         }
+        console.log("x: " + k )
         if(k == winline){
             gameOver(turn);
         }
@@ -55,6 +56,7 @@ Tile.prototype.win = function(turn){
         if(this.locy-i >= 0 && grid[this.locx][this.locy-i].class == turn && grid[this.locx][this.locy-i].class != null){
             k++;
         }
+        console.log("y: " + k )
         if(k == winline){
             gameOver(turn);
         }
@@ -65,6 +67,7 @@ Tile.prototype.win = function(turn){
         if(this.locy-i >= 0 && this.locx-i >= 0 &&grid[this.locx-i][this.locy-i].class == turn && grid[this.locx-i][this.locy-i].class != null){
             k++;
         }
+        console.log("oikeakeno " + k )
         if(k == winline){
             gameOver(turn);
         }
@@ -75,6 +78,7 @@ Tile.prototype.win = function(turn){
         if(this.locy-i >= 0 && this.locx+i < grid_size && grid[this.locx+i][this.locy-i].class == turn && grid[this.locx+i][this.locy-i].class != null){
             k++;
         }
+        console.log("vasenkeno " + k )
         if(k == winline){
             gameOver(turn);
         }
