@@ -2,7 +2,7 @@
 <body>
 
 <p>Grid size: <?php echo $_GET["grid_size"]; ?></p><br>
-Your email address is: <?php echo $_GET["winline"]; ?>
+Winning line of symbols: <?php echo $_GET["winline"]; ?>
 
 <?php 
 echo "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js'></script>
