@@ -4,8 +4,8 @@ let cols;
 let rows;
 let w = 30;
 let turn;
-let grid_size= "<?php echo $_POST['grid_size']?>";
-let winline = "<?php echo $_POST['winline']?>";
+//let grid_size= "<?php echo $_POST['grid_size']?>";
+//let winline = "<?php echo $_POST['winline']?>";
 
 function setup(){
     turn = "dX";
