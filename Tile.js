@@ -52,7 +52,7 @@ Tile.prototype.win = function(turn){
         if(this.locy < grid_size && grid[this.locx][this.locy+i].class == turn && grid[this.locx][this.locy+i].class != null){
             k++;
         }
-        if(this.locy-i >= 0 && grid[this.locx][this.locy-i].class == turn && grid[this.locx-i][this.locy].class != null){
+        if(this.locy-i >= 0 && grid[this.locx][this.locy-i].class == turn && grid[this.locx][this.locy-i].class != null){
             k++;
         }
         if(k == winline){
