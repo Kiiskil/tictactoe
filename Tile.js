@@ -38,7 +38,7 @@ Tile.prototype.press = function(turn) {
 
 Tile.prototype.win = function(turn){
     let k = 0;
-    for(let i=1; i < winline; i++){
+    for(let i=1; i <= winline; i++){
         if(this.locx+i < grid_size && grid[this.locx+i][this.locy].class == turn && grid[this.locx+i][this.locy].class != null){
             k++;
         }
@@ -51,7 +51,7 @@ Tile.prototype.win = function(turn){
         }
     }
     k = 0;
-    for(let i=1; i < winline; i++){
+    for(let i=1; i <= winline; i++){
         if(this.locy < grid_size && grid[this.locx][this.locy+i].class == turn && grid[this.locx][this.locy+i].class != null){
             k++;
         }
@@ -64,27 +64,27 @@ Tile.prototype.win = function(turn){
         }
     }
     k = 0;
-    for(let i=1; i < winline; i++){
+    for(let i=1; i <= winline; i++){
         if(this.locx+i < grid_size && this.locy+i < grid_size && grid[this.locx+i][this.locy+i].class == turn && grid[this.locx+i][this.locy+i].class != null){
             k++;
         }
         if(this.locy-i >= 0 && this.locx-i >= 0 &&grid[this.locx-i][this.locy-i].class == turn && grid[this.locx-i][this.locy-i].class != null){
             k++;
         }
-        console.log("oikeakeno " + k )
+        console.log("vasenakeno " + k )
         if(k == winline){
             gameOver(turn);
         }
     }
     k = 0;
-    for(let i=1; i < winline; i++){
+    for(let i=1; i <= winline; i++){
         if(this.locy + i < grid_size && this.locx-i >= 0 && grid[this.locx-i][this.locy+i].class == turn && grid[this.locx-i][this.locy+i].class != null){
             k++;
         }
         if(this.locy-i >= 0 && this.locx+i < grid_size && grid[this.locx+i][this.locy-i].class == turn && grid[this.locx+i][this.locy-i].class != null){
             k++;
         }
-        console.log("vasenkeno " + k )
+        console.log("oikeakeno " + k )
         if(k == winline){
             gameOver(turn);
         }
