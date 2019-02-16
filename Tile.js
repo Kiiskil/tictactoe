@@ -29,5 +29,20 @@ Tile.prototype.press = function(turn) {
         this.class = turn;
         this.used = true;
     };
-    console.log("Location " + this.x + " "+ this.y + " " + this.class);
+    console.log("Location " + this.locx + " "+ this.locy + " " + this.class);
+}
+
+Tile.prototype.win = function(turn){
+    let k = 0;
+    for(let i=0; i < winline; i++){
+        if(grid[this.locx+i][this.locy].class == turn){
+            k++;
+        }
+        if(grid[this.locx-i][this.locy].class == turn){
+            k++;
+        }
+        if(k == winline){
+            gameOver(turn);
+        }
+    }
 }
