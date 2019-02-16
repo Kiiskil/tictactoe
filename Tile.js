@@ -35,10 +35,10 @@ Tile.prototype.press = function(turn) {
 Tile.prototype.win = function(turn){
     let k = 0;
     for(let i=0; i < winline; i++){
-        if(grid[this.locx+i][this.locy].class == turn){
+        if(locx+i < grid_size && grid[this.locx+i][this.locy].class == turn){
             k++;
         }
-        if(grid[this.locx-i][this.locy].class == turn){
+        if(locx-i > 0 && grid[this.locx-i][this.locy].class == turn){
             k++;
         }
         if(k == winline){
