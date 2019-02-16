@@ -33,7 +33,7 @@ Tile.prototype.press = function(turn) {
         this.class = turn;
         this.used = true;
     };
-    console.log("Location " + this.locx + " "+ this.locy + " " + this.class);
+    //console.log("Location " + this.locx + " "+ this.locy + " " + this.class);
 }
 
 Tile.prototype.win = function(turn){
@@ -84,4 +84,5 @@ Tile.prototype.win = function(turn){
         }
         else { k = 0;}
     }
+    console.log("-----------------------------------")
 }
