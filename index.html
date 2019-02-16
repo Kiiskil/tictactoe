@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>TIC-TAC-TOE</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+        <script src="sketch.js"></script>
+        <script src="Tile.js"></script>
+    </head>
+    <body>
+        <form id="frm1" action="transfer.php" method="POST">
+            Grid Size: <input type="text" name="grid_size"><br>
+            Win line amount: <input type="text" name="winline"><br><br>
+            <input type="submit" onclick="myFunction()" value="Submit">
+          </form>
+          
+          <script>
+          function myFunction() {
+            document.getElementById("frm1").submit();
+          }
+          </script>
+    </body>
+</html>
