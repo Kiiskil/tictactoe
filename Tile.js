@@ -41,6 +41,7 @@ Tile.prototype.win = function(turn){
         if(this.locx-i > 0 && grid[this.locx-i][this.locy].class == turn){
             k++;
         }
+        console.log(k);
         if(k == winline){
             gameOver(turn);
         }
