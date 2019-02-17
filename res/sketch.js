@@ -29,7 +29,7 @@ let colony_size = 200;
 let playRounds = 50;
 const winline = 4;
 const doom = 10;
-const target = 110;
+const target = 100;
 
 
 //let boardNN.game_size= "<?php echo $_POST['boardNN.game_size']?>";
