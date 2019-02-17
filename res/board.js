@@ -6,7 +6,7 @@ class Board {
                 this.game[i][j] = new Tile(i * w, j * w, w);
             }
         }
-        console.log(this.game)
+        //console.log(this.game)
         this.name;
     }
     make2DArray(cols, rows){

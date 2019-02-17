@@ -32,13 +32,13 @@ Tile.prototype.show = function(player,player1) {
     } 
 }
 
-Tile.prototype.press = function() {
+Tile.prototype.press = function(player) {
     if(!this.used) {
-            this.class = turn;
+            this.class = player.name;
             this.used = true;
     };
     //console.log("Location " + this.locx + " "+ this.locy + " " + this.class);
-    console.log("AAAAA"+this.class)
+    //console.log("AAAAA"+this.class)
 }
 
 Tile.prototype.checMax = function(player,tmp){
@@ -51,11 +51,11 @@ Tile.prototype.checMax = function(player,tmp){
     }
 }
 
-Tile.prototype.win = function(player,board){
+Tile.prototype.win = function(player,player1,board){
     let tmp = 0;
     name = player.name;
     let comp_board=board;
-    console.log(board);
+    //console.log(board);
     let k = 1;
 
     for(let i=1; i < winline; i++){
@@ -67,9 +67,9 @@ Tile.prototype.win = function(player,board){
             k++;
             this.clikcs[1] = 1;
         }
-        console.log("x: " + k )
+        //console.log("x: " + k )
         if(k == winline){
-            gameOver(name);
+            gameOver(turn,board,player,player1);
         }
     }
     k = 1;
@@ -84,7 +84,7 @@ Tile.prototype.win = function(player,board){
         }
         //console.log("y: " + k )
         if(k == winline){
-            gameOver(name);
+            gameOver(turn,board,player,player1);
         }
     }
     k = 1;
@@ -99,7 +99,7 @@ Tile.prototype.win = function(player,board){
         }
         //console.log("vasenakeno " + k )
         if(k == winline){
-            gameOver(name);
+            gameOver(turn,board,player,player1);
         }
         
     }
@@ -115,18 +115,18 @@ Tile.prototype.win = function(player,board){
         }
         //console.log("oikeakeno " + k )
         if(k == winline){
-            gameOver(name);
+            gameOver(turn,board,player,player1);
         }
     }
     k = 1;
     this.checMax(player,tmp);
-    console.log("Max CLICK!!"+this.max_click);
+    //console.log("Max CLICK!!"+this.max_click);
     //console.log("-----------------------------------")
     if (comp_board.game == board.game){
         this.doom--;
         if(this.doom == 0){
             this.doom = 5;
-            gameOver("nada");
+            gameOver("nada",board,player,player1);
         }
     }
     else {

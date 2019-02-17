@@ -12,7 +12,13 @@ let brain;
 let mypoints;
 let myTurn = true;
 let myName;
-let colony = 50;
+
+let colony1 = [];
+let colony2 = [];
+let boards = [];
+
+let colony_size = 10;
+let playRounds = 50;
 
 let points_symb = 0.5;
 
@@ -27,77 +33,96 @@ function setup(){
     cols = floor(width / w);
     rows = floor(height / w);
 
-    playerNN = new Player();
-    myPlayer = new Player();
+    /* playerNN = new Player1();
+    myPlayer = new Player2();
     boardNN = new Board();
     mypoints = 0;
     myName = "Jeppe"
     playerNN.name = "playerNN"
+    colony1[0].push(playerNN);
+    colony2[0].push(myPlayer);
+    boards[0].push(boardNN);
     myPlayer.name = "myPlayer"
     boardNN.name  = "boardNN"
-    myPlayer.myTurn = true;
+    myPlayer.myTurn = true; */
+
+    colonize();
+    play();
+}
+
+function colonize(){
+    for(let i = 0; i < colony_size; i++){
+        colony1[i] = new Player1();
+        colony1[i].myTurn = true;
+        colony2[i] = new Player2();
+        boards[i] = new Board();
+    }
+}
+function play(){
+    for(let i = 0; i < playRounds;i++){
+        for(let j = 0; j < colony_size; j++){
+            if(colony1[j].myTurn){
+                colony1[j].think(boards[j], colony2[j]);
+                colony2[j].myTurn = true;
+                draw();
+            }
+            else if(colony2[j].myTurn){
+                colony2[j].think(boards[j], colony1[j]);
+                colony1[j].myTurn = true;
+                draw();
+            }
+        } 
+    }
+    colony1.forEach(element => {
+        //console.log("COLONY1 :" + element.points);
+    });
+    
 }
 
 function mousePressed() {
-    console.log(turn);
-    if(myPlayer.myTurn){
-        myPlayer.think(boardNN, playerNN);
-        playerNN.myTurn = true;
-        turn = playerNN.name;
+    //console.log(turn);
+    if(colony1[0].myTurn){
+        colony1[0].think(boards[0], colony2[0]);
+        colony2[0].myTurn = true;
+        //turn = colony2[0].name;
         draw();
     }
-    else if(playerNN.myTurn){
-        playerNN.think(boardNN, myPlayer);
-        myPlayer.myTurn = true;
-        turn = myPlayer.name;
+    else if(colony2[0].myTurn){
+        colony2[0].think(boards[0], colony1[0]);
+        colony1[0].myTurn = true;
+        //turn = colony1[0].name;
         draw();
     }
-    /* if(myTurn){
-        for(let i=0; i < cols; i++){
-            for(let j=0; j < rows; j++){
-                if(boardNN.game[i][j].locx==floor(mouseX/w) && boardNN.game[i][j].locy == floor(mouseY/w)){
-                    boardNN.game[i][j].press(myName);
-                    boardNN.game[i][j].win(myName);
-                }
-            }
-        }
-        playerNN.myTurn = true;
-        draw();
-    } */
-   // playerNN.think(boardNN.game); 
 }
 
-function gameOver(turn){
+function gameOver(turn,board,player,player1){
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            if(boardNN.game[i][j].class==playerNN.name){
-                playerNN.points += points_symb;
+            if(board.game[i][j].class==player.name){
+                player.points += points_symb;
             }
-            if(boardNN.game[i][j].class==myPlayer.name){
-                myPlayer.points += points_symb;
+            if(board.game[i][j].class == player1.name){
+                player1.points += points_symb;
             }
-            if(boardNN.game[i][j].class == myName){
-                mypoints += points_symb;
-            }
-            boardNN.game[i][j].used = false;
-            boardNN.game[i][j].class = null;
+            board.game[i][j].used = false;
+            board.game[i][j].class = null;
         }
     }
-    console.log("Player " + turn + " wins!!!");
+    console.log("Player " + player.name + " wins!!!");
     
-    if(turn == "playerNN"){
-        playerNN.points += 100;
-        myPlayer.myTurn = false;
-        playerNN.myTurn = true;
+    if(turn == player.name){
+        player.points += 100;
+        player1.myTurn = false;
+        player.myTurn = true;
     }
-    else if (turn == "myPlayer"){
-        myPlayer.points += 100;
-        myPlayer.myTurn = true;
-        playerNN.myTurn = false;
+    else if (turn == player1.name){
+        player1.points += 100;
+        player1.myTurn = true;
+        player.myTurn = false;
     }
     else {
-        myPlayer.myTurn = true;
-        playerNN.myTurn = false;
+        player1.myTurn = true;
+        player.myTurn = false;
         console.log("DOOOOOOOOOOOOOOOOOOM")
     }
     draw();
@@ -106,15 +131,17 @@ function gameOver(turn){
 function draw(){
     let player
     background(255);
-    player = myPlayer;
-    player1 = playerNN;
+
+    player = colony1[0];
+    player1 = colony2[0];
+    
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            boardNN.game[i][j].show(player,player1);
+            boards[0].game[i][j].show(player,player1);
         }
     }
-    document.getElementById("turn_screen").innerHTML = turn
-    document.getElementById("player1").innerHTML = "MyPlayer "+myPlayer.points;
-    document.getElementById("player2").innerHTML = "PlayerNN "+playerNN.points;
+    document.getElementById("turn_screen").innerHTML = "Vuoro :"+player.name;
+    document.getElementById("player1").innerHTML = player.name+" "+colony1[0].points;
+    document.getElementById("player2").innerHTML = player1.name+" "+colony2[0].points;
 }
 
