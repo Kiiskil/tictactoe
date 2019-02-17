@@ -1,24 +1,38 @@
+
 class Player1 {
-    constructor (brain) {
+    constructor (brain, gene) {
         //NeuralNetwork(inputs,hidden layers, outputs)
         //NeuralNetwork(array of numbers, preferable normalized between zero and one, 3 hidden layers(?) and x,y value as output)
         this.points = 0;
         this.fitness = 0;
-        if(brain){
+        /* if(brain){
             this.brain = brain.copy();
+            this.generation;
         }else{
             this.brain = new NeuralNetwork(grid_size*grid_size,5,2);
-        }
+            this.generation=0;
+        } */
         this.myTurn = false;
         this.name = "Teppo";
-    }
+        this.wins = 0;
 
-    mutate(){
-        this.brain.mutate();
+        if (brain instanceof NeuralNetwork) {
+            this.brain = brain.copy();
+            this.brain.mutate(mutate);
+            this.generation = gene;
+          } else {
+            this.brain = new NeuralNetwork(grid_size*grid_size,50,2);
+            this.generation = 0;
+          }
+    }
+    
+    copy(gene) {
+        return new Player1(this.brain, gene);
     }
 
     think(gridi, enemy){
-        //console.log(this.name);
+        if(pointsMax<target){
+              //console.log(this.name);
         let inputs = this.gridizise(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
@@ -28,6 +42,7 @@ class Player1 {
         //console.log(outputs)
         //console.log("Player yksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
+        }
     }
     
     gridizise(arr, enemy){
@@ -64,6 +79,7 @@ class Player1 {
                 }
             }
             this.myTurn = false;
+            enemy.myTurn = true;
         }
     }
 }

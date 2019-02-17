@@ -1,32 +1,47 @@
 class Player2{
-    constructor () {
+    constructor (brain, gene) {
         //NeuralNetwork(inputs,hidden layers, outputs)
         //NeuralNetwork(array of numbers, preferable normalized between zero and one, 3 hidden layers(?) and x,y value as output)
         this.points = 0;
         this.fitness = 0;
-        if(brain){
+        /* if(brain){
             this.brain = brain.copy();
+            this.generation;
         }else{
             this.brain = new NeuralNetwork(grid_size*grid_size,5,2);
-        }
+            this.generation =0;
+        } */
         this.myTurn = false;
         this.name = "Liisa";
+        this.wins = 0;
+
+        if (brain instanceof NeuralNetwork) {
+            this.brain = brain.copy();
+            this.brain.mutate(mutate);
+            this.generation = gene;
+          } else {
+            this.brain = new NeuralNetwork(grid_size*grid_size,50,2);
+            this.generation = 0;
+          }
     }
 
-    mutate(){
-        this.brain.mutate();
+    copy(gene) {
+        return new Player2(this.brain, gene);
     }
-    
+
     think(gridi, enemy){
-        //console.log(this.name);
+        if(pointsMax<target){
+              //console.log(this.name);
         let inputs = this.gridizise(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
         let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size));
         let coo_y = floor(map( outputs[1], 0 , 1 , 0 , grid_size));
-        //console.log("Player kaksi painaa: " +coo_x,coo_y);
+        //console.log(coo_x,coo_y);
         //console.log(outputs)
+        //console.log("Player yksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
+        }
     }
     
     gridizise(arr, enemy){
@@ -59,11 +74,12 @@ class Player2{
                     if(gridi.game[i][j].locx == x && gridi.game[i][j].locy == y){
                         gridi.game[i][j].press(this);
                         gridi.game[i][j].win(this,enemy,gridi);
-                        console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);
+                        //console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);
                     }
                 }
             }
             this.myTurn = false;
+            enemy.myTurn = true;
         }
     }
 }

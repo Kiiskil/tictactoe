@@ -3,30 +3,38 @@ function nextGeneration(colony){
     calculateFitness(colony);
     for(let i = 0; i < colony_size; i++){
         colony1x[i] = pickOne(colony);
-        boards[i] = new Board();
+
     }
     return colony1x;
 }
+
+function mutate(x) {
+    if (random(1) < 0.1) {
+      let offset = randomGaussian() * 0.5;
+      let newx = x + offset;
+      return newx;
+    } else {
+      return x;
+    }
+  }
+
 function pickOne(colony){
    let index = 0;
    let r = random(1);
+   let newPlayer;
 
    while ( r > 0){
        r = r - colony[index].fitness;
        index++;
    }
    index--;
-   let player = colony[index];
-    if(player.name=="Teppo"){
-        child = new Player1(player.brain);
-        child.mutate();
-    }
-    else{
-        child = new Player2(player.brain);
-        child.mutate();
-    }
-    return child;
+   newPlayer = colony[index].copy(colony[index].generation);
+   newPlayer.generation += 1;
+
+   console.log("GENERAATIO :"+newPlayer.generation);
+   return newPlayer;
 }
+
 function calculateFitness(colony){
     let sum = 0;
     colony.forEach(player => {
@@ -34,5 +42,14 @@ function calculateFitness(colony){
     });
     colony.forEach(player => {
         player.fitness += player.points/sum;
+        if(player.fitness>fitMax){
+            fitMax = player.fitness;
+        }
+        if(player.points>pointsMax){
+            pointsMax = player.points;
+        }
     });
+    console.log("MAX FITNESS: "+fitMax);
+    console.log("MAX POINTS: "+pointsMax);
 }
+

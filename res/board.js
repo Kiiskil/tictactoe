@@ -1,13 +1,18 @@
 class Board {
-    constructor(){
-        this.game = this.make2DArray(cols, rows);
-        for(let i=0; i < cols; i++){
-            for(let j=0; j < rows; j++){
-                this.game[i][j] = new Tile(i * w, j * w, w);
+    constructor(board){
+        if(!board){
+            this.game = this.make2DArray(cols, rows);
+            for(let i=0; i < cols; i++){
+                for(let j=0; j < rows; j++){
+                    this.game[i][j] = new Tile(i * w, j * w, w);
+                }
             }
-        }
         //console.log(this.game)
         this.name;
+        }
+        else{
+            this.game = board;
+        }
     }
     make2DArray(cols, rows){
         let arr = new Array(cols);
@@ -15,5 +20,8 @@ class Board {
             arr[i] = new Array(rows);
         }
         return arr;
+    }
+    copy(){
+        return new Board(this.game);
     }
 }
