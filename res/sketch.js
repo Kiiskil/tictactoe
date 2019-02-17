@@ -20,14 +20,14 @@ let colony1 = [];
 let colony2 = [];
 let boards = [];
 
-let points_symb = 0.5;
+let points_symb = 1;
 const grid_size = 15;
 let fitMax= 0;
 let pointsMax = 0;
 
-let colony_size = 200;
+let colony_size = 250;
 let playRounds = 50;
-const winline = 4;
+const winline = 3;
 const doom = 10;
 const target = 100;
 
@@ -77,13 +77,6 @@ function colonize(){
 }
 
 function play(){
-    /* boards.forEach(boardy => {
-        boardy.game.used = false;
-        boardy.game.class = null;
-    }); */
-    /* colony1.forEach(player => {
-        player.myTurn = true;
-    }); */
     for(let i = 0; i < playRounds;i++){
         for(let j = 0; j < colony_size; j++){
             if(colony2[j].myTurn){
@@ -96,9 +89,12 @@ function play(){
     }
 }
 
-function starta(){
-    colony1 = nextGeneration(colony1);
-    colony2 = nextGeneration(colony2);
+function starta(gen){
+    if(gen){
+        colony1 = nextGeneration(colony1);
+        colony2 = nextGeneration(colony2);
+        console.log("GENERAATIO :"+ colony1[0].generation);
+    }
     colony1.forEach(player => {
         player.myTurn = true;
     });
@@ -150,13 +146,14 @@ function gameOver(turn,board,player,player1){
     colony1.forEach(player => {
         player.myTurn = false;
         player.points += player.wins * 250;
+        if(player.win==0){player.points -=50}
     });
     colony2.forEach(player => {
         player.myTurn = false;
         player.points += player.wins * 250;
+        if(player.win==0){player.points -=50}
     });
     if(player.win){
-        //draw();
         player.points += 100;
         player.wins += 1;
         winboard = board;
@@ -166,11 +163,11 @@ function gameOver(turn,board,player,player1){
         draw();
         player.win = 0;
         board = new Board();
-        starta();
+        starta(1);
     }
     else {
         console.log("DOOOOOOOOOOOOOOOOOOM")
-        starta();
+        starta(0);
     }
     turn = 0;
     /* if(pointsMax<target){
@@ -180,7 +177,6 @@ function gameOver(turn,board,player,player1){
 
 function draw(){
     background(255);
-
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
             winboard.game[i][j].show(winner,winner1);

@@ -10,7 +10,7 @@ function nextGeneration(colony){
 
 function mutate(x) {
     if (random(1) < 0.1) {
-      let offset = randomGaussian() * 0.75;
+      let offset = randomGaussian() * 0.5;
       let newx = x + offset;
       return newx;
     } else {
