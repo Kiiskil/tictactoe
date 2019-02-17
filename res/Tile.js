@@ -10,6 +10,8 @@ function Tile(x, y, w) {
     this.class = null;
     this.doom = 5;
 
+    this.clikcs= new Array(8);
+    this.max_click = 0;
 }
 
 Tile.prototype.show = function(player,player1) {
@@ -39,7 +41,18 @@ Tile.prototype.press = function() {
     console.log("AAAAA"+this.class)
 }
 
+Tile.prototype.checMax = function(player,tmp){
+    this.clikcs.forEach(click => {
+        tmp += click; 
+    })
+    if(tmp>this.max_click){
+        this.max_click = tmp;
+        player.points += this.max_click;
+    }
+}
+
 Tile.prototype.win = function(player,board){
+    let tmp = 0;
     name = player.name;
     let comp_board=board;
     console.log(board);
@@ -48,9 +61,11 @@ Tile.prototype.win = function(player,board){
     for(let i=1; i < winline; i++){
         if(this.locx+i < grid_size && board.game[this.locx+i][this.locy].class == name && board.game[this.locx+i][this.locy].class != null){
             k++;
+            this.clikcs[0] = 1;
         }
         if(this.locx-i >= 0 && board.game[this.locx-i][this.locy].class == name && board.game[this.locx-i][this.locy].class != null){
             k++;
+            this.clikcs[1] = 1;
         }
         console.log("x: " + k )
         if(k == winline){
@@ -61,9 +76,11 @@ Tile.prototype.win = function(player,board){
     for(let i=1; i < winline; i++){
         if(this.locy+i < grid_size && board.game[this.locx][this.locy+i].class == name && board.game[this.locx][this.locy+i].class != null){
             k++;
+            this.clikcs[2] = 1;
         }
         if(this.locy-i >= 0 && board.game[this.locx][this.locy-i].class == name && board.game[this.locx][this.locy-i].class != null){
             k++;
+            this.clikcs[3] = 1;
         }
         //console.log("y: " + k )
         if(k == winline){
@@ -74,9 +91,11 @@ Tile.prototype.win = function(player,board){
     for(let i=1; i < winline; i++){
         if(this.locx+i < grid_size && this.locy+i < grid_size && board.game[this.locx+i][this.locy+i].class == name && board.game[this.locx+i][this.locy+i].class != null){
             k++;
+            this.clikcs[4] = 1;
         }
         if(this.locy-i >= 0 && this.locx-i >= 0 &&board.game[this.locx-i][this.locy-i].class == name && board.game[this.locx-i][this.locy-i].class != null){
             k++;
+            this.clikcs[5] = 1;
         }
         //console.log("vasenakeno " + k )
         if(k == winline){
@@ -88,9 +107,11 @@ Tile.prototype.win = function(player,board){
     for(let i=1; i < winline; i++){
         if(this.locy + i < grid_size && this.locx-i >= 0 && board.game[this.locx-i][this.locy+i].class == name && board.game[this.locx-i][this.locy+i].class != null){
             k++;
+            this.clikcs[6] = 1;
         }
         if(this.locy-i >= 0 && this.locx+i < grid_size && board.game[this.locx+i][this.locy-i].class == name && board.game[this.locx+i][this.locy-i].class != null){
             k++;
+            this.clikcs[7] = 1;
         }
         //console.log("oikeakeno " + k )
         if(k == winline){
@@ -98,6 +119,8 @@ Tile.prototype.win = function(player,board){
         }
     }
     k = 1;
+    this.checMax(player,tmp);
+    console.log("Max CLICK!!"+this.max_click);
     //console.log("-----------------------------------")
     if (comp_board.game == board.game){
         this.doom--;
