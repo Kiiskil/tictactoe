@@ -3,14 +3,14 @@ function nextGeneration(colony){
     calculateFitness(colony);
     for(let i = 0; i < colony_size; i++){
         colony1x[i] = pickOne(colony);
-
+        colony1x[i].name = colony[i].name;
     }
     return colony1x;
 }
 
 function mutate(x) {
     if (random(1) < 0.1) {
-      let offset = randomGaussian() * 0.5;
+      let offset = randomGaussian() * 0.75;
       let newx = x + offset;
       return newx;
     } else {
@@ -30,8 +30,7 @@ function pickOne(colony){
    index--;
    newPlayer = colony[index].copy(colony[index].generation);
    newPlayer.generation += 1;
-
-   console.log("GENERAATIO :"+newPlayer.generation);
+   //console.log("GENERAATIO :"+newPlayer.generation);
    return newPlayer;
 }
 

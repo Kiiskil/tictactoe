@@ -12,6 +12,7 @@ function Tile(x, y, w) {
 
     this.clikcs= new Array(8);
     this.max_click = 0;
+
 }
 
 Tile.prototype.show = function(player,player1) {
@@ -47,10 +48,10 @@ Tile.prototype.checMax = function(player,tmp){
     })
     if(tmp>this.max_click){
         this.max_click = tmp;
-        player.points += this.max_click;
+        player.points += this.max_click*2;
     }
 }
-
+//Something is awfully awry here.
 Tile.prototype.win = function(player,player1,boardy){
     let tmp = 0;
     name = player.name;
@@ -59,48 +60,96 @@ Tile.prototype.win = function(player,player1,boardy){
     let k = 1;
 
     for(let i=1; i < winline; i++){
-        if(this.locx+i < grid_size && boardy.game[this.locx+i][this.locy].class == name && boardy.game[this.locx+i][this.locy].class != null){
-            k++;
-            this.clikcs[0] = 1;
+        if(this.locx+i < grid_size && boardy.game[this.locx+i][this.locy].class == null){break;}
+        else if(this.locx+i < grid_size && boardy.game[this.locx+i][this.locy].class == name){
+            if(boardy.game[this.locx+i][this.locy].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[0] = 1;
+            }
         }
-        if(this.locx-i >= 0 && boardy.game[this.locx-i][this.locy].class == name && boardy.game[this.locx-i][this.locy].class != null){
-            k++;
-            this.clikcs[1] = 1;
+    }
+    for(let i=1; i < winline; i++){
+        if(this.locx-i >= 0 && boardy.game[this.locx-i][this.locy].class == null){break;}
+        else if(this.locx-i >= 0 && boardy.game[this.locx-i][this.locy].class == name){
+            if(boardy.game[this.locx-i][this.locy].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[1] = 1;
+            }
         }
         //console.log("x: " + k )
         if(k == winline){
+            console.log("X");
+            player.win = 1;
             turn = player.name;
             gameOver(turn,boardy,player,player1);
         }
     }
     k = 1;
     for(let i=1; i < winline; i++){
-        if(this.locy+i < grid_size && boardy.game[this.locx][this.locy+i].class == name && boardy.game[this.locx][this.locy+i].class != null){
-            k++;
-            this.clikcs[2] = 1;
+        if(this.locy+i < grid_size && boardy.game[this.locx][this.locy+i].class == null){break;}
+        else if(this.locy+i < grid_size && boardy.game[this.locx][this.locy+i].class == name){
+            if(boardy.game[this.locx][this.locy+i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[2] = 1;
+            }
         }
-        if(this.locy-i >= 0 && boardy.game[this.locx][this.locy-i].class == name && boardy.game[this.locx][this.locy-i].class != null){
-            k++;
-            this.clikcs[3] = 1;
+    }
+    for(let i=1; i < winline; i++){
+        if(this.locy-i >= 0 && boardy.game[this.locx][this.locy-i].class == null){break;}
+        else if(this.locy-i >= 0 && boardy.game[this.locx][this.locy-i].class == name){
+            if(boardy.game[this.locx][this.locy-i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[3] = 1;
+            }
         }
         //console.log("y: " + k )
         if(k == winline){
+            console.log("Y");
+            player.win = 1;
             turn = player.name;
             gameOver(turn,boardy,player,player1);
         }
     }
     k = 1;
     for(let i=1; i < winline; i++){
-        if(this.locx+i < grid_size && this.locy+i < grid_size && boardy.game[this.locx+i][this.locy+i].class == name && boardy.game[this.locx+i][this.locy+i].class != null){
-            k++;
-            this.clikcs[4] = 1;
+        if(this.locx+i < grid_size && this.locy+i < grid_size && boardy.game[this.locx+i][this.locy+i].class == null){break;}
+        else if(this.locx+i < grid_size && this.locy+i < grid_size && boardy.game[this.locx+i][this.locy+i].class == name){
+            if(boardy.game[this.locx+i][this.locy+i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[4] = 1;
+            }
         }
-        if(this.locy-i >= 0 && this.locx-i >= 0 &&boardy.game[this.locx-i][this.locy-i].class == name && boardy.game[this.locx-i][this.locy-i].class != null){
-            k++;
-            this.clikcs[5] = 1;
+    }
+    for(let i=1; i < winline; i++){
+        if(this.locy-i >= 0 && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy-i].class == null){break;}
+        else if(this.locy-i >= 0 && this.locx-i >= 0 &&boardy.game[this.locx-i][this.locy-i].class == name){
+            if(boardy.game[this.locx-i][this.locy-i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[5] = 1;
+            }
         }
         //console.log("vasenakeno " + k )
         if(k == winline){
+            console.log("YX");
+            player.win = 1;
             turn = player.name;
             gameOver(turn,boardy,player,player1);
         }
@@ -108,17 +157,33 @@ Tile.prototype.win = function(player,player1,boardy){
     }
     k = 1;
     for(let i=1; i < winline; i++){
-        if(this.locy + i < grid_size && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy+i].class == name && boardy.game[this.locx-i][this.locy+i].class != null){
-            k++;
-            this.clikcs[6] = 1;
+        if(this.locy + i < grid_size && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy+i].class == null){break;}
+        else if(this.locy + i < grid_size && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy+i].class == name){
+            if(boardy.game[this.locx-i][this.locy+i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[6] = 1;
+            }
         }
-        if(this.locy-i >= 0 && this.locx+i < grid_size && boardy.game[this.locx+i][this.locy-i].class == name && boardy.game[this.locx+i][this.locy-i].class != null){
-            k++;
-            this.clikcs[7] = 1;
+    }
+    for(let i=1; i < winline; i++){
+        if(this.locy-i >= 0 && this.locx+i < grid_size && boardy.game[this.locx+i][this.locy-i].class == null){break;}
+        else if(this.locy-i >= 0 && this.locx+i < grid_size && boardy.game[this.locx+i][this.locy-i].class == name){
+            if(boardy.game[this.locx+i][this.locy-i].class == null){
+                break;
+            }
+            else{
+                k++;
+                this.clikcs[7] = 1;
+            }
         }
         //console.log("oikeakeno " + k )
         if(k == winline){
+            player.win = 1;
             turn = player.name;
+            console.log("XY");
             gameOver(turn,boardy,player,player1);
         }
     }

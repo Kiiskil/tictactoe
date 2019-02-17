@@ -72,6 +72,7 @@ class Player2{
             for(let i=0; i < cols; i++){
                 for(let j=0; j < rows; j++){
                     if(gridi.game[i][j].locx == x && gridi.game[i][j].locy == y){
+                        //console.log(this.name);
                         gridi.game[i][j].press(this);
                         gridi.game[i][j].win(this,enemy,gridi);
                         //console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);

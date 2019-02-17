@@ -21,6 +21,7 @@ class Board {
         }
         return arr;
     }
+    
     copy(){
         return new Board(this.game);
     }

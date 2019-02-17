@@ -15,6 +15,7 @@ class Player1 {
         this.myTurn = false;
         this.name = "Teppo";
         this.wins = 0;
+        this.win = 0;
 
         if (brain instanceof NeuralNetwork) {
             this.brain = brain.copy();
@@ -72,9 +73,10 @@ class Player1 {
             for(let i=0; i < cols; i++){
                 for(let j=0; j < rows; j++){
                     if(gridi.game[i][j].locx == x && gridi.game[i][j].locy == y){
+                        //console.log(this.name);
                         gridi.game[i][j].press(this);
                         gridi.game[i][j].win(this,enemy,gridi);
-                        console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);
+                        //console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);
                     }
                 }
             }
