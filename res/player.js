@@ -1,15 +1,22 @@
 class Player1 {
-    constructor () {
+    constructor (brain) {
         //NeuralNetwork(inputs,hidden layers, outputs)
         //NeuralNetwork(array of numbers, preferable normalized between zero and one, 3 hidden layers(?) and x,y value as output)
         this.points = 0;
-        this.brain = new NeuralNetwork(grid_size*grid_size,5,2);
+        this.fitness = 0;
+        if(brain){
+            this.brain = brain.copy();
+        }else{
+            this.brain = new NeuralNetwork(grid_size*grid_size,5,2);
+        }
         this.myTurn = false;
         this.name = "Teppo";
-        this.winner=0;
-        this.next = 0;
     }
-    
+
+    mutate(){
+        this.brain.mutate();
+    }
+
     think(gridi, enemy){
         //console.log(this.name);
         let inputs = this.gridizise(gridi.game, enemy);
@@ -19,7 +26,7 @@ class Player1 {
         let coo_y = floor(map( outputs[1], 0 , 1 , 0 , grid_size));
         //console.log(coo_x,coo_y);
         //console.log(outputs)
-        console.log("Player yksi painaa: " +coo_x,coo_y);
+        //console.log("Player yksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
     }
     
@@ -57,7 +64,6 @@ class Player1 {
                 }
             }
             this.myTurn = false;
-            draw();
         }
     }
 }

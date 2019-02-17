@@ -61,38 +61,37 @@ function colonize(){
 function play(){
     for(let i = 0; i < playRounds;i++){
         for(let j = 0; j < colony_size; j++){
-            if(colony1[j].myTurn){
-                colony1[j].think(boards[j], colony2[j]);
-                colony2[j].myTurn = true;
-                draw();
-            }
-            else if(colony2[j].myTurn){
+            if(colony2[j].myTurn){
                 colony2[j].think(boards[j], colony1[j]);
                 colony1[j].myTurn = true;
                 draw();
             }
+            else if(colony1[j].myTurn){
+                colony1[j].think(boards[j], colony2[j]);
+                colony2[j].myTurn = true;
+                draw();
+            }
         } 
     }
-    colony1.forEach(element => {
-        //console.log("COLONY1 :" + element.points);
-    });
-    
 }
 
 function mousePressed() {
-    //console.log(turn);
     if(colony1[0].myTurn){
         colony1[0].think(boards[0], colony2[0]);
         colony2[0].myTurn = true;
-        //turn = colony2[0].name;
         draw();
     }
     else if(colony2[0].myTurn){
         colony2[0].think(boards[0], colony1[0]);
         colony1[0].myTurn = true;
-        //turn = colony1[0].name;
         draw();
     }
+    colony1 = nextGeneration(colony1);
+    for(let i = 0; i < colony_size; i++){
+        colony1[i].myTurn = true;
+    };
+    colony2 = nextGeneration(colony2);
+    play();
 }
 
 function gameOver(turn,board,player,player1){
@@ -108,17 +107,9 @@ function gameOver(turn,board,player,player1){
             board.game[i][j].class = null;
         }
     }
-    console.log("Player " + player.name + " wins!!!");
-    
-    if(turn == player.name){
+    if(turn != "nada"){
         player.points += 100;
-        player1.myTurn = false;
-        player.myTurn = true;
-    }
-    else if (turn == player1.name){
-        player1.points += 100;
-        player1.myTurn = true;
-        player.myTurn = false;
+        console.log("Player " + player.name + " wins!!!");
     }
     else {
         player1.myTurn = true;
