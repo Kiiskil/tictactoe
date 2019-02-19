@@ -47,6 +47,5 @@ function calculateFitness(colony){
         }
     });
     console.log("MAX FITNESS: "+fitMax);
-    //console.log("MAX POINTS: "+pointsMax);
 }
 

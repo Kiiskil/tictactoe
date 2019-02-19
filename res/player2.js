@@ -22,7 +22,7 @@ class Player2{
             this.brain.mutate(mutate);
             this.generation = gene;
           } else {
-            this.brain = new NeuralNetwork(grid_size*grid_size,20,2);
+            this.brain = new NeuralNetwork(grid_size*grid_size,200,2);
             this.generation = 0;
           }
     }

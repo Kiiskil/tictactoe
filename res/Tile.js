@@ -36,6 +36,7 @@ Tile.prototype.press = function(player,board) {
     if(!this.used) {
             this.class = player.name;
             this.used = true;
+            board.doom = doom;
             draw();
     }
     else{

@@ -4,7 +4,14 @@
 //PHP for getting boardNN.game size and amount required for the win from the user.
 //Toy-Neural-Network by Coding Train https://github.com/CodingTrain/Toy-Neural-Network-JS
 
-//GameOver iterates over for some reason, and points grow too fast.
+//every player is in array. There are 3 arrays, one for opposing players and one for board. Each player plays against its opposing player
+
+//TODO
+//check mutation / incentive / points - calculations
+//Do iterative training-mode which works without user
+//Now user uses colony1[0] -places player, named myPlayer. It is against colony2[0] - player named playerNN on a boards[0] - board.
+//New generation comes along only when game is won on boards[0].
+
 
 let cols;
 let rows;
@@ -27,7 +34,7 @@ let fitMax= 0;
 let colony_size = 25;
 let playRounds = 50;
 const winline = 4;
-const doom = 10;
+const doom = 5;
 const target = 100;
 
 let kierros= 0;
@@ -53,6 +60,7 @@ function setup(){
     play();
 }
 
+//Make players and boards
 function colonize(){
     playerNN = new Player2();
     myPlayer = new Player1();
@@ -76,6 +84,7 @@ function colonize(){
     }
 }
 
+//iterate over rounds
 function play(){
     for(let i = 0; i < playRounds;i++){
         for(let j = 1; j < colony_size; j++){
@@ -92,27 +101,31 @@ function play(){
     kierros = 0;
 }
 
-function starta(){
+//New generation it is called. New boards for everybody else, and initialize turns
+function starta(newGen){
     for(let i = 1; i < colony_size; i++){
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
-        colony1[i].myTurn = true;
+        //colony1[i].myTurn = true;
     }
+    if(newGen){
         colony1 = nextGeneration(colony1);
         colony2 = nextGeneration(colony2);
-        colony1.forEach(player => {
-            player.myTurn = true;
-        });
-        play();
+    }
+    colony1.forEach(player => {
+        player.myTurn = true;
+    });
+    play();
 }
 
+//users functions
 function mousePressed() {
     if(colony1[0].myTurn){
         for(let i=0; i < cols; i++){
             for(let j=0; j < rows; j++){
                 if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
                     colony2[0].myTurn = true;
-                    boards[0].game[i][j].press(colony1[0]);
+                    boards[0].game[i][j].press(colony1[0],boards[0]);
                     boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);  
                 }
             }
@@ -121,11 +134,12 @@ function mousePressed() {
     }
 }
 
+//If gameOver is called, function nullifies turns for that board and those players. New boards are generated, and if user (or oppnent) wins, calls for new generation 
 function gameOver(board,player,player1){
     //console.log(player);
     winboard = boards[0].copy();
-    winner = myPlayer;
-    winner1 = playerNN;
+    winner = colony1[0];
+    winner1 = colony2[0];
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
             if(board.game[i][j].class==player.name){
@@ -147,19 +161,26 @@ function gameOver(board,player,player1){
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
+        //console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
         player.win = 0;
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board;
             boards[0] = boardNN;
-            starta();
+            starta(1);
         }
     }
     else {
-        console.log("STALLED GAME at board " + boards.indexOf(board))
-        let tmp = board.name;
-        board = new Board;
-        board.name = tmp;
+        //console.log("STALLED GAME at board " + boards.indexOf(board))
+        if(player.name == "myPlayer" || player.name == "playerNN"){
+            boardNN = new Board;
+            boards[0] = boardNN;
+            starta(0);
+        }
+        else{
+            let tmp = board.name;
+            board = new Board;
+            board.name = tmp;
+        }
     }
 }
 
@@ -167,13 +188,13 @@ function draw(){
     background(255);
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            winboard.game[i][j].show(myPlayer,playerNN);
+            boards[0].game[i][j].show(colony1[0],colony2[0]);
         }
     };
     
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
-    document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[1].generation;
+    document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;
     document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
     //document.getElementById("muuta").innerHTML = 
 }
