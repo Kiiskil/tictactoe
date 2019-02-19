@@ -13,6 +13,7 @@ class Board {
         else{
             this.game = board;
         }
+        this.doom = 5;
     }
     make2DArray(cols, rows){
         let arr = new Array(cols);

@@ -1,4 +1,3 @@
-
 class Player1 {
     constructor (brain, gene) {
         //NeuralNetwork(inputs,hidden layers, outputs)
@@ -16,6 +15,7 @@ class Player1 {
         this.name = "Teppo";
         this.wins = 0;
         this.win = 0;
+        this.winrow = 0;
 
         if (brain instanceof NeuralNetwork) {
             this.brain = brain.copy();
@@ -32,7 +32,6 @@ class Player1 {
     }
 
     think(gridi, enemy){
-        if(pointsMax<target){
               //console.log(this.name);
         let inputs = this.gridizise(gridi.game, enemy);
         //console.log(inputs);
@@ -43,7 +42,6 @@ class Player1 {
         //console.log(outputs)
         //console.log("Player yksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
-        }
     }
     
     gridizise(arr, enemy){
@@ -74,7 +72,7 @@ class Player1 {
                 for(let j=0; j < rows; j++){
                     if(gridi.game[i][j].locx == x && gridi.game[i][j].locy == y){
                         //console.log(this.name);
-                        gridi.game[i][j].press(this);
+                        gridi.game[i][j].press(this,gridi);
                         gridi.game[i][j].win(this,enemy,gridi);
                         //console.log(this.name + " Pressed " + gridi.game[i][j].locx,gridi.game[i][j].locy);
                     }

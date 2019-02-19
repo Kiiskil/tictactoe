@@ -23,13 +23,14 @@ let boards = [];
 let points_symb = 1;
 const grid_size = 15;
 let fitMax= 0;
-let pointsMax = 0;
 
-let colony_size = 250;
+let colony_size = 25;
 let playRounds = 50;
-const winline = 3;
+const winline = 4;
 const doom = 10;
 const target = 100;
+
+let kierros= 0;
 
 
 //let boardNN.game_size= "<?php echo $_POST['boardNN.game_size']?>";
@@ -40,24 +41,12 @@ function setup(){
     createCanvas(grid_size * w + 1, grid_size * w + 1);
     cols = floor(width / w);
     rows = floor(height / w);
-
-    /* playerNN = new Player1();
-    myPlayer = new Player2();
-    boardNN = new Board();
-    mypoints = 0;
-    myName = "Jeppe"
-    playerNN.name = "playerNN"
-    colony1[0]=playerNN;
-    colony2[0]=myPlayer;
-    boards[0]=boardNN;
-    myPlayer.name = "myPlayer"
-    boardNN.name  = "boardNN"
-    myPlayer.myTurn = true; */
-
+    
     colonize();
     winboard = boards[0];
     winner = colony1[0];
     winner1 = colony2[0];
+    draw();
     colony1.forEach(player => {
         player.myTurn = true;
     });
@@ -65,7 +54,18 @@ function setup(){
 }
 
 function colonize(){
-    for(let i = 0; i < colony_size; i++){
+    playerNN = new Player2();
+    myPlayer = new Player1();
+    boardNN = new Board();
+    playerNN.name = "playerNN"
+    myPlayer.name = "myPlayer"
+    boardNN.name  = "boardNN"
+    myPlayer.myTurn = true;
+    colony2[0]=playerNN;
+    colony1[0]=myPlayer;
+    boards[0]=boardNN;
+
+    for(let i = 1; i < colony_size; i++){
         colony1[i] = new Player1();
         colony1[i].name = "Teppo" + i;
         colony1[i].myTurn = true;
@@ -78,114 +78,102 @@ function colonize(){
 
 function play(){
     for(let i = 0; i < playRounds;i++){
-        for(let j = 0; j < colony_size; j++){
+        for(let j = 1; j < colony_size; j++){
             if(colony2[j].myTurn){
-                colony2[j].think(boards[j], colony1[j]) 
+                colony2[j].think(boards[j], colony1[j])
             }
             else if(colony1[j].myTurn){
                 colony1[j].think(boards[j], colony2[j]);
             }
         } 
+        kierros += 1;
+        //console.log(kierros);
     }
+    kierros = 0;
 }
 
-function starta(gen){
-    if(gen){
-        colony1 = nextGeneration(colony1);
-        colony2 = nextGeneration(colony2);
-        console.log("GENERAATIO :"+ colony1[0].generation);
-    }
-    colony1.forEach(player => {
-        player.myTurn = true;
-    });
-    for(let i = 0; i < colony_size; i++){
+function starta(){
+    for(let i = 1; i < colony_size; i++){
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
+        colony1[i].myTurn = true;
     }
-    play();
+        colony1 = nextGeneration(colony1);
+        colony2 = nextGeneration(colony2);
+        colony1.forEach(player => {
+            player.myTurn = true;
+        });
+        play();
 }
 
 function mousePressed() {
     if(colony1[0].myTurn){
-        //colony1[0].think(boards[0], colony2[0]);
-        //colony2[0].myTurn = true;
-        //draw();
-        play();
-    }
-    else if(colony2[0].myTurn){
-        //colony2[0].think(boards[0], colony1[0]);
-        //colony1[0].myTurn = true;
-        //draw();
-        play();
-    }
-    else {
-        starta();
-    }
-   /*  colony1 = nextGeneration(colony1);
-    colony2 = nextGeneration(colony2); */
-    pointsMax = 0;
-    //play()
-}
-
-function gameOver(turn,board,player,player1){
-    winboard = board.copy();
-    winner = player;
-    winner1 = player1;
-    boards.forEach(boardy => {
         for(let i=0; i < cols; i++){
             for(let j=0; j < rows; j++){
-                if(boardy.game[i][j].class==player.name){
-                    player.points += points_symb;
-                }
-                if(boardy.game[i][j].class == player1.name){
-                    player1.points += points_symb;
+                if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
+                    colony2[0].myTurn = true;
+                    boards[0].game[i][j].press(colony1[0]);
+                    boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);  
                 }
             }
         }
-    });
-    colony1.forEach(player => {
-        player.myTurn = false;
-        player.points += player.wins * 250;
-        if(player.win==0){player.points -=50}
-    });
-    colony2.forEach(player => {
-        player.myTurn = false;
-        player.points += player.wins * 250;
-        if(player.win==0){player.points -=50}
-    });
+        colony2[0].think(boards[0], colony1[0]);
+    }
+}
+
+function gameOver(board,player,player1){
+    //console.log(player);
+    winboard = boards[0].copy();
+    winner = myPlayer;
+    winner1 = playerNN;
+    for(let i=0; i < cols; i++){
+        for(let j=0; j < rows; j++){
+            if(board.game[i][j].class==player.name){
+                player.points += points_symb;
+            }
+            if(board.game[i][j].class == player1.name){
+                 player1.points += points_symb;
+             }
+        }
+    }
+    player.myTurn = false;
+    player.points += player.wins * 250;
+    if(player.win==0){player.points -=50}
+
+    player1.myTurn = false;
+    player1.points += player1.wins * 250;
+    if(player1.win==0){player1.points -=50}
+
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        winboard = board;
-        console.log("Player " + player.name + " wins at "+ colony1.indexOf(player));
-        console.log("Player " + player1.name + " loses at "+ colony2.indexOf(player1));
-        document.getElementById("muuta").innerHTML = "VoittoLauta :" + boards.indexOf(board);
-        draw();
+        console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
         player.win = 0;
-        board = new Board();
-        starta(1);
+        if(player.name == "myPlayer" || player.name == "playerNN"){
+            boardNN = new Board;
+            boards[0] = boardNN;
+            starta();
+        }
     }
     else {
-        console.log("DOOOOOOOOOOOOOOOOOOM")
-        starta(0);
+        console.log("STALLED GAME at board " + boards.indexOf(board))
+        let tmp = board.name;
+        board = new Board;
+        board.name = tmp;
     }
-    turn = 0;
-    /* if(pointsMax<target){
-        play();
-    } */
 }
 
 function draw(){
     background(255);
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            winboard.game[i][j].show(winner,winner1);
+            winboard.game[i][j].show(myPlayer,playerNN);
         }
     };
     
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
-    document.getElementById("gene").innerHTML = "Generaatio :"+ winner.generation;
+    document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[1].generation;
     document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
     //document.getElementById("muuta").innerHTML = 
 }

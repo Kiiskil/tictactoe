@@ -39,16 +39,14 @@ function calculateFitness(colony){
     colony.forEach(player => {
         sum += player.points;
     });
+    console.log(sum);
     colony.forEach(player => {
         player.fitness += player.points/sum;
         if(player.fitness>fitMax){
             fitMax = player.fitness;
         }
-        if(player.points>pointsMax){
-            pointsMax = player.points;
-        }
     });
     console.log("MAX FITNESS: "+fitMax);
-    console.log("MAX POINTS: "+pointsMax);
+    //console.log("MAX POINTS: "+pointsMax);
 }
 
