@@ -21,6 +21,9 @@ let winner;
 let winner1;
 let winboard;
 
+let stalledGames = 0;
+let wonGames = 0; 
+
 let colony1 = [];
 let colony2 = [];
 let boards = [];
@@ -31,7 +34,7 @@ const doom = 5;
 const target = 100;
 let fitMax= 0;
 
-let colony_size = 10;////
+let colony_size = 250;////
 let playRounds = 50;////
 const winline = 5;////
 
@@ -166,6 +169,8 @@ function gameOver(board,player,player1){
         player.wins += 1;
         console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
         player.win = 0;
+        wonGames++;
+        wonGames++;
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board;
             boards[0] = boardNN;
@@ -176,6 +181,7 @@ function gameOver(board,player,player1){
         console.log("STALLED GAME at board " + boards.indexOf(board))
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board();
+            //Apparently both players go through if game is stalled, so double wonGames here.
             boards[0] = boardNN;
             starta(0);
         }
@@ -183,6 +189,7 @@ function gameOver(board,player,player1){
             let tmp = board.name;
             board = new Board();
             board.name = tmp;
+            stalledGames++;
         }
     }
 }
@@ -194,11 +201,15 @@ function draw(){
             boards[0].game[i][j].show(colony1[0],colony2[0]);
         }
     };
-    
+    console.log(wonGames);
+    console.log(stalledGames);
+
+    let WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
     document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;
     document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
+    document.getElementById("wonStallRatio").innerHTML = "Ratio of number of player won games over stalled games"+ WGratio;
     //document.getElementById("muuta").innerHTML = 
 }
 
