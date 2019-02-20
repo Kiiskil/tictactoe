@@ -11,7 +11,7 @@ Atm there are 25 opposing playerpairs and one of the players is user controlled.
 Everytime user or opponent wins, another generation is generated.
 
 #Next I want to add a training-mode, where NN can iterate over set amount of generations or some other goal.
-    #Automate either myPlayer or mouseclick. OF course it's myPlayer, but I have to figure out how to stop the iterations OR how to start, if stop is automated.
+    #Automate either myPlayer or mouseclick. OF course it's myPlayer, but I have to figure out how to stop the iterations OR how to start, if stop is automated. !!DONE!!
 #There is still bugs on incentive, the NN doesnt know what it wants to do.
     #Training data seems to be fine, though not complete. The WGratio do get better.
     #Hidden layer count? Test.
