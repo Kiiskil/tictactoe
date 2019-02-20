@@ -21,10 +21,12 @@ let winner;
 let winner1;
 let winboard;
 let genPer = [];
+let kierrosRajoitin = 0;
 
 let stalledGames = 0;
 let wonGames = 0; 
 let WGratio = 0;
+let results =[];
 
 let colony1 = [];
 let colony2 = [];
@@ -35,8 +37,9 @@ const grid_size = 15;
 const doom = 5;
 const target = 100;
 let fitMax= 0;
+let automateToggle = false;
 
-let colony_size = 150;////
+let colony_size = 5;////
 let playRounds = 50;////
 const winline = 5;////
 
@@ -106,11 +109,13 @@ function play(){
             }
         } 
     }
-    draw();
+
+    //draw();
     genPerGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
     genPer.push(genPerGen);
     console.log("All games finished. Results below:")
     console.log(genPer);
+    console.log(results);
 }
 
 //New generation it is called. New boards for everybody else, and initialize turns
@@ -127,28 +132,66 @@ function starta(newGen){
     colony1.forEach(player => {
         player.myTurn = true;
     });
-    play();
 }
 
 //users functions
 function mousePressed() {
-    if(colony1[0].myTurn){
-        for(let i=0; i < cols; i++){
-            for(let j=0; j < rows; j++){
-                if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
-                    colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
-                    boards[0].game[i][j].press(colony1[0],boards[0]);
-                    boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
+    if(kierrosRajoitin == kierros){
+        kierrosRajoitin = 0;
+    }
+    if(!automateToggle){
+        if(colony1[0].myTurn){
+            for(let i=0; i < cols; i++){
+                for(let j=0; j < rows; j++){
+                    if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
+                        colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
+                        boards[0].game[i][j].press(colony1[0],boards[0]);
+                        boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
+                    }
                 }
             }
+            colony2[0].think(boards[0], colony1[0]);
         }
-        colony2[0].think(boards[0], colony1[0]);
+    }
+    else{
+        //play();
+    }
+}
+
+function autoToggle() {
+    if (!automateToggle){
+        //console.log("AUTOMAATTIII");
+        kierros =  parseInt(document.getElementById("rounds").value);
+        if(kierrosRajoitin<kierros){
+            automateToggle = true;
+            kierrosRajoitin++;
+        }
+    }
+    if(automateToggle){
+        play()
+        automateToggle = false;
+        if(colony1[0].myTurn){
+            for(let i=0; i < cols; i++){
+                for(let j=0; j < rows; j++){
+                    if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
+                        colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
+                        boards[0].game[i][j].press(colony1[0],boards[0]);
+                        boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
+                    }
+                }
+            }
+            colony2[0].think(boards[0], colony1[0]);
+            starta(1);
+            autoToggle();
+        }
     }
 }
 
 //If gameOver is called, function nullifies turns for that board and those players. New boards are generated, and if user (or oppnent) wins, calls for new generation 
 function gameOver(board,player,player1){
-    //console.log(player);
+    let resultsTMP = [];
+    let resultsTMP1 = [];
+    let resultsTMP2 = [];
     winboard = boards[0].copy();
     winner = colony1[0];
     winner1 = colony2[0];
@@ -173,17 +216,19 @@ function gameOver(board,player,player1){
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        //console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
+        resultsTMP[0] = "Player " + player.name.toString(); + " wins at "+ boards.indexOf(board).toString();
         player.win = 0;
         wonGames++;
+
         if(player.name == "myPlayer" || player.name == "playerNN"){
+            player.points += 100;
             boardNN = new Board;
             boards[0] = boardNN;
             starta(1);
         }
     }
     else {
-        //console.log("STALLED GAME at board " + boards.indexOf(board))
+        resultsTMP1[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board();
             boards[0] = boardNN;
@@ -196,6 +241,14 @@ function gameOver(board,player,player1){
             stalledGames++;
         }
     }
+    resultsTMP2.push(resultsTMP[0]);
+    resultsTMP2.push(resultsTMP1[0]);
+    results.push(resultsTMP2.join());
+}
+
+function wipeBoard(){
+    boards[0] = new Board();
+    draw();
 }
 
 function draw(){
