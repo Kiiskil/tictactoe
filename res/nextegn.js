@@ -46,6 +46,6 @@ function calculateFitness(colony){
             fitMax = player.fitness;
         }
     });
-    console.log("MAX FITNESS: "+fitMax);
+   // console.log("MAX FITNESS: "+fitMax);
 }
 

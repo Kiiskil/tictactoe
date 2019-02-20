@@ -20,9 +20,11 @@ let w = 30;
 let winner;
 let winner1;
 let winboard;
+let genPer = [];
 
 let stalledGames = 0;
 let wonGames = 0; 
+let WGratio = 0;
 
 let colony1 = [];
 let colony2 = [];
@@ -34,7 +36,7 @@ const doom = 5;
 const target = 100;
 let fitMax= 0;
 
-let colony_size = 250;////
+let colony_size = 150;////
 let playRounds = 50;////
 const winline = 5;////
 
@@ -92,6 +94,8 @@ function colonize(){
 
 //iterate over rounds
 function play(){
+    let genPerGen = [];
+    console.log("Playing...")
     for(let i = 0; i < playRounds;i++){
         for(let j = 1; j < colony_size; j++){
             if(colony2[j].myTurn){
@@ -101,10 +105,12 @@ function play(){
                 colony1[j].think(boards[j], colony2[j]);
             }
         } 
-        kierros += 1;
-        //console.log(kierros);
     }
-    kierros = 0;
+    draw();
+    genPerGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
+    genPer.push(genPerGen);
+    console.log("All games finished. Results below:")
+    console.log(genPer);
 }
 
 //New generation it is called. New boards for everybody else, and initialize turns
@@ -167,9 +173,8 @@ function gameOver(board,player,player1){
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
+        //console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
         player.win = 0;
-        wonGames++;
         wonGames++;
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board;
@@ -178,10 +183,9 @@ function gameOver(board,player,player1){
         }
     }
     else {
-        console.log("STALLED GAME at board " + boards.indexOf(board))
+        //console.log("STALLED GAME at board " + boards.indexOf(board))
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board();
-            //Apparently both players go through if game is stalled, so double wonGames here.
             boards[0] = boardNN;
             starta(0);
         }
@@ -201,10 +205,7 @@ function draw(){
             boards[0].game[i][j].show(colony1[0],colony2[0]);
         }
     };
-    console.log(wonGames);
-    console.log(stalledGames);
-
-    let WGratio = wonGames/stalledGames;
+    WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
     document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;

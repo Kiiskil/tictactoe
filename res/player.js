@@ -32,10 +32,10 @@ class Player1 {
     }
 
     train(){
-        //let trainingtrainingDatatrainingDatadata = generateTrainingData();
-        //console.log(trainingdata);
+        //let trainingData = generateTrainingData();
+        //console.log("Training");
         for (let i= 0; i<trainingData.length/2;i++){
-            this.brain.train(trainingData[0+i],trainingData[1+i]);
+            this.brain.train(trainingData[i*2],trainingData[1+i*2]);
         }
     }
 
