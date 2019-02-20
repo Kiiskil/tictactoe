@@ -22,7 +22,7 @@ class Player2{
             this.brain.mutate(mutate);
             this.generation = gene;
           } else {
-            this.brain = new NeuralNetwork(grid_size*grid_size,50,2);
+            this.brain = new NeuralNetwork(grid_size*grid_size,225,2);
             this.generation = 0;
           }
     }
@@ -32,24 +32,45 @@ class Player2{
     }
 
     train(){
-        let trainingdata = generateTrainingData();
+        //let trainingData = generateTrainingData();
         console.log("Training");
-        for (let i= 0; i<trainingdata.length/2;i++){
-            this.brain.train(trainingdata[i*2],trainingdata[1+i*2]);
+        for (let i= 0; i<trainingData.length/2;i++){
+            this.brain.train(trainingData[i*2],trainingData[1+i*2]);
         }
     }
 
     think(gridi, enemy){
               //console.log(this.name);
-        let inputs = gridisize(gridi.game, enemy);
+        let inputs = this.gridisize(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
-        let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size));
-        let coo_y = floor(map( outputs[1], 0 , 1 , 0 , grid_size));
+        let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size-1));
+        let coo_y = floor(map( outputs[1], 0 , 1 , 0 , grid_size-1));
         //console.log(coo_x,coo_y);
         //console.log(outputs)
-        //console.log("Player yksi painaa: " +coo_x,coo_y);
+        //console.log("Player kaksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
+    }
+
+    gridisize(arr, enemy){
+        //console.log(arr);
+        let arr_new = new Array(grid_size*grid_size);
+        let ind_new = 0;
+        for(let i=0; i < cols; i++){
+            for(let j=0; j < rows; j++){
+                if(arr[i][j].class == null){
+                    arr_new[ind_new] = 0.1;
+                }
+                else if(arr[i][j].class == enemy.name){
+                    arr_new[ind_new] = 0.5;
+                }
+                else if(arr[i][j].class == this.name){
+                    arr_new[ind_new] = 1;
+                }
+                ind_new++;
+            }
+        }
+        return arr_new;
     }
     
     //Function, that makes essentially the same as mousePressed, but for NeuralNetwork, as it returns x,y-values as outputs

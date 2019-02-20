@@ -31,11 +31,11 @@ const doom = 5;
 const target = 100;
 let fitMax= 0;
 
-let colony_size = 1;////
+let colony_size = 10;////
 let playRounds = 50;////
 const winline = 5;////
 
-
+let trainingData = [];
 let kierros= 0;
 
 
@@ -49,6 +49,7 @@ function setup(){
     rows = floor(height / w);
     
     colonize();
+    trainingData = generateTrainingData();
     winboard = boards[0];
     winner = colony1[0];
     winner1 = colony2[0];
@@ -77,8 +78,10 @@ function colonize(){
         colony1[i] = new Player1();
         colony1[i].name = "Teppo" + i;
         colony1[i].myTurn = true;
+        colony1[i].train();
         colony2[i] = new Player2();
         colony2[i].name = "Liisa" + i;
+        colony2[i].train();
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
     }
@@ -124,9 +127,9 @@ function mousePressed() {
         for(let i=0; i < cols; i++){
             for(let j=0; j < rows; j++){
                 if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
-                    colony2[0].myTurn = true;
+                    colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
                     boards[0].game[i][j].press(colony1[0],boards[0]);
-                    boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);  
+                    boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
                 }
             }
         }
@@ -161,7 +164,7 @@ function gameOver(board,player,player1){
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        //console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
+        console.log("Player " + player.name + " wins at "+ boards.indexOf(board));
         player.win = 0;
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board;
@@ -170,7 +173,7 @@ function gameOver(board,player,player1){
         }
     }
     else {
-        //console.log("STALLED GAME at board " + boards.indexOf(board))
+        console.log("STALLED GAME at board " + boards.indexOf(board))
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = new Board();
             boards[0] = boardNN;

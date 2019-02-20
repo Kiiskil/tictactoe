@@ -22,7 +22,7 @@ class Player1 {
             this.brain.mutate(mutate);
             this.generation = gener;
           } else {
-            this.brain = new NeuralNetwork(grid_size*grid_size,200,2);
+            this.brain = new NeuralNetwork(grid_size*grid_size,225,2);
             this.generation = 0;
           }
     }
@@ -32,14 +32,15 @@ class Player1 {
     }
 
     train(){
-        let trainingdata = generateTrainingData();
-        for (let i= 0; i<trainingdata.length/2;i++){
-            this.brain.train(trainingdata[0+i],trainingdata[1+i]);
+        //let trainingtrainingDatatrainingDatadata = generateTrainingData();
+        //console.log(trainingdata);
+        for (let i= 0; i<trainingData.length/2;i++){
+            this.brain.train(trainingData[0+i],trainingData[1+i]);
         }
     }
 
     think(gridi, enemy){
-        let inputs = gridisize(gridi.game, enemy);
+        let inputs = this.gridisize(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
         let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size));
@@ -48,6 +49,27 @@ class Player1 {
         //console.log(outputs)
         //console.log("Player yksi painaa: " +coo_x,coo_y);
         this.nnMouse(gridi,coo_x,coo_y,enemy);
+    }
+
+    gridisize(arr, enemy){
+        //console.log(arr);
+        let arr_new = new Array(grid_size*grid_size);
+        let ind_new = 0;
+        for(let i=0; i < cols; i++){
+            for(let j=0; j < rows; j++){
+                if(arr[i][j].class == null){
+                    arr_new[ind_new] = 0.1;
+                }
+                else if(arr[i][j].class == enemy.name){
+                    arr_new[ind_new] = 0.5;
+                }
+                else if(arr[i][j].class == this.name){
+                    arr_new[ind_new] = 1;
+                }
+                ind_new++;
+            }
+        }
+        return arr_new;
     }
     
     //Function, that makes essentially the same as mousePressed, but for NeuralNetwork, as it returns x,y-values as outputs

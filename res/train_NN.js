@@ -3,7 +3,6 @@ function generateTrainingData(){
     let trainInputs = [225];
     let trainOutput = [2];
     let trainIndex = 0;
-    let trainBoard
     
     //generate training data for all winline - 1 -situations (aka if enemy is about to win)
     //first vertical lines
@@ -21,7 +20,8 @@ function generateTrainingData(){
             trainOutput = [f, winline+k];
             trainData[trainIndex] = trainOutput;
             trainIndex++;
-        }   
+        }
+        //trainIndex = 0;
     }
     //console.log(trainData);
     return trainData;
@@ -46,23 +46,3 @@ function trainGridisize(arr){
     return arr_new;
 }
 
-function gridisize(arr, enemy){
-    //console.log(arr);
-    let arr_new = new Array(grid_size*grid_size);
-    let ind_new = 0;
-    for(let i=0; i < cols; i++){
-        for(let j=0; j < rows; j++){
-            if(arr[i][j].class == null){
-                arr_new[ind_new] = 0.1;
-            }
-            else if(arr[i][j].class == enemy.name){
-                arr_new[ind_new] = 0.5;
-            }
-            else if(arr[i][j].class == this.name){
-                arr_new[ind_new] = 1;
-            }
-            ind_new++;
-        }
-    }
-    return arr_new;
-}
