@@ -31,9 +31,9 @@ const doom = 5;
 const target = 100;
 let fitMax= 0;
 
-let colony_size = 25;
-let playRounds = 50;
-const winline = 5;
+let colony_size = 1;////
+let playRounds = 50;////
+const winline = 5;////
 
 
 let kierros= 0;
@@ -63,6 +63,7 @@ function setup(){
 function colonize(){
     playerNN = new Player2();
     myPlayer = new Player1();
+    playerNN.train();
     boardNN = new Board();
     playerNN.name = "playerNN"
     myPlayer.name = "myPlayer"

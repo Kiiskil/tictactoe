@@ -31,6 +31,13 @@ class Player1 {
         return new Player1(this.brain, gener);
     }
 
+    train(){
+        let trainingdata = generateTrainingData();
+        for (let i= 0; i<trainingdata.length/2;i++){
+            this.brain.train(trainingdata[0+i],trainingdata[1+i]);
+        }
+    }
+
     think(gridi, enemy){
         let inputs = gridisize(gridi.game, enemy);
         //console.log(inputs);

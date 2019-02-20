@@ -1,4 +1,4 @@
-function generateData(){
+function generateTrainingData(){
     let trainData = [];
     let trainInputs = [225];
     let trainOutput = [2];

@@ -22,13 +22,21 @@ class Player2{
             this.brain.mutate(mutate);
             this.generation = gene;
           } else {
-            this.brain = new NeuralNetwork(grid_size*grid_size,200,2);
+            this.brain = new NeuralNetwork(grid_size*grid_size,50,2);
             this.generation = 0;
           }
     }
 
     copy(gene) {
         return new Player2(this.brain, gene);
+    }
+
+    train(){
+        let trainingdata = generateTrainingData();
+        console.log("Training");
+        for (let i= 0; i<trainingdata.length/2;i++){
+            this.brain.train(trainingdata[i*2],trainingdata[1+i*2]);
+        }
     }
 
     think(gridi, enemy){
