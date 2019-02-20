@@ -31,6 +31,7 @@ let results =[];
 let colony1 = [];
 let colony2 = [];
 let boards = [];
+let winboards = [];
 
 let points_symb = 1;
 const grid_size = 15;
@@ -151,6 +152,7 @@ function mousePressed() {
                 }
             }
             colony2[0].think(boards[0], colony1[0]);
+            draw();
         }
     }
     else{
@@ -168,6 +170,7 @@ function autoToggle() {
         }
     }
     if(automateToggle){
+        starta(1);
         play()
         automateToggle = false;
         if(colony1[0].myTurn){
@@ -181,7 +184,6 @@ function autoToggle() {
                 }
             }
             colony2[0].think(boards[0], colony1[0]);
-            starta(1);
             autoToggle();
         }
     }
@@ -192,7 +194,8 @@ function gameOver(board,player,player1){
     let resultsTMP = [];
     let resultsTMP1 = [];
     let resultsTMP2 = [];
-    winboard = boards[0].copy();
+    //winboard = board.copy();
+    draw();
     winner = colony1[0];
     winner1 = colony2[0];
     for(let i=0; i < cols; i++){
@@ -219,12 +222,13 @@ function gameOver(board,player,player1){
         resultsTMP[0] = "Player " + player.name.toString(); + " wins at "+ boards.indexOf(board).toString();
         player.win = 0;
         wonGames++;
-
+        winboards.push(board);
         if(player.name == "myPlayer" || player.name == "playerNN"){
             player.points += 100;
             boardNN = new Board;
             boards[0] = boardNN;
             starta(1);
+            if(!automateToggle)play();
         }
     }
     else {
@@ -233,6 +237,7 @@ function gameOver(board,player,player1){
             boardNN = new Board();
             boards[0] = boardNN;
             starta(0);
+            if(!automateToggle)play();
         }
         else{
             let tmp = board.name;
@@ -248,6 +253,17 @@ function gameOver(board,player,player1){
 
 function wipeBoard(){
     boards[0] = new Board();
+    winboard = boards[0]
+    draw();
+}
+
+function seeBoard(){
+    let bId = parseInt(document.getElementById("winBoard").value);
+   // console.log(parseInt(document.getElementById("winBoard").value));
+    if(bId>0 && bId <winboards.length){
+        winboard = winboards[bId];
+    }
+    else(console.log("Either bad language or there is no winning tables"))
     draw();
 }
 
@@ -255,7 +271,7 @@ function draw(){
     background(255);
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            boards[0].game[i][j].show(colony1[0],colony2[0]);
+            winboard.game[i][j].show(colony1[0],colony2[0]);
         }
     };
     WGratio = wonGames/stalledGames;
