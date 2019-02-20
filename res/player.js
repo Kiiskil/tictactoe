@@ -1,5 +1,5 @@
 class Player1 {
-    constructor (brain, gene) {
+    constructor (brain, gener) {
         //NeuralNetwork(inputs,hidden layers, outputs)
         //NeuralNetwork(array of numbers, preferable normalized between zero and one, 3 hidden layers(?) and x,y value as output)
         this.points = 0;
@@ -20,20 +20,19 @@ class Player1 {
         if (brain instanceof NeuralNetwork) {
             this.brain = brain.copy();
             this.brain.mutate(mutate);
-            this.generation = gene;
+            this.generation = gener;
           } else {
             this.brain = new NeuralNetwork(grid_size*grid_size,200,2);
             this.generation = 0;
           }
     }
     
-    copy(gene) {
-        return new Player1(this.brain, gene);
+    copy(gener) {
+        return new Player1(this.brain, gener);
     }
 
     think(gridi, enemy){
-              //console.log(this.name);
-        let inputs = this.gridizise(gridi.game, enemy);
+        let inputs = gridisize(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
         let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size));
@@ -44,27 +43,6 @@ class Player1 {
         this.nnMouse(gridi,coo_x,coo_y,enemy);
     }
     
-    gridizise(arr, enemy){
-        //console.log(arr);
-        let arr_new = new Array(grid_size*grid_size);
-        let ind_new = 0;
-        for(let i=0; i < cols; i++){
-            for(let j=0; j < rows; j++){
-                if(arr[i][j].class == null){
-                    arr_new[ind_new] = 0.1;
-                }
-                else if(arr[i][j].class == enemy.name){
-                    arr_new[ind_new] = 0.5;
-                }
-                else if(arr[i][j].class == this.name){
-                    arr_new[ind_new] = 1;
-                }
-                ind_new++;
-            }
-        }
-        //console.log(ind_new);
-        return arr_new;
-    }
     //Function, that makes essentially the same as mousePressed, but for NeuralNetwork, as it returns x,y-values as outputs
     nnMouse(gridi,x,y,enemy){
         if(this.myTurn){

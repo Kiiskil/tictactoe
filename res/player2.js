@@ -33,7 +33,7 @@ class Player2{
 
     think(gridi, enemy){
               //console.log(this.name);
-        let inputs = this.gridizise(gridi.game, enemy);
+        let inputs = gridisize(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
         let coo_x = floor(map( outputs[0], 0 , 1 , 0 , grid_size));
@@ -44,27 +44,6 @@ class Player2{
         this.nnMouse(gridi,coo_x,coo_y,enemy);
     }
     
-    gridizise(arr, enemy){
-        //console.log(arr);
-        let arr_new = new Array(grid_size*grid_size);
-        let ind_new = 0;
-        for(let i=0; i < cols; i++){
-            for(let j=0; j < rows; j++){
-                if(arr[i][j].class == null){
-                    arr_new[ind_new] = 0.1;
-                }
-                else if(arr[i][j].class == enemy.name){
-                    arr_new[ind_new] = 0.5;
-                }
-                else if(arr[i][j].class == this.name){
-                    arr_new[ind_new] = 1;
-                }
-                ind_new++;
-            }
-        }
-        //console.log(ind_new);
-        return arr_new;
-    }
     //Function, that makes essentially the same as mousePressed, but for NeuralNetwork, as it returns x,y-values as outputs
     nnMouse(gridi,x,y,enemy){
         if(this.myTurn){

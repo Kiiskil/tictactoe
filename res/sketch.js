@@ -16,8 +16,6 @@
 let cols;
 let rows;
 let w = 30;
-let turn = "myPlayer";
-let brain;
 
 let winner;
 let winner1;
@@ -29,13 +27,14 @@ let boards = [];
 
 let points_symb = 1;
 const grid_size = 15;
+const doom = 5;
+const target = 100;
 let fitMax= 0;
 
 let colony_size = 25;
 let playRounds = 50;
-const winline = 4;
-const doom = 5;
-const target = 100;
+const winline = 5;
+
 
 let kierros= 0;
 
@@ -172,13 +171,13 @@ function gameOver(board,player,player1){
     else {
         //console.log("STALLED GAME at board " + boards.indexOf(board))
         if(player.name == "myPlayer" || player.name == "playerNN"){
-            boardNN = new Board;
+            boardNN = new Board();
             boards[0] = boardNN;
             starta(0);
         }
         else{
             let tmp = board.name;
-            board = new Board;
+            board = new Board();
             board.name = tmp;
         }
     }
