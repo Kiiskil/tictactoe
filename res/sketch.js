@@ -150,7 +150,6 @@ function mousePressed() {
                     if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
                         colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
                         boards[0].game[i][j].press(colony1[0],boards[0]);
-                        console.log("PEERKELE")
                         boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
                         
                     }
@@ -267,13 +266,14 @@ function wipeBoard(){
 }
 
 function seeBoard(){
+    wipeBoard();
     bId = parseInt(document.getElementById("winBoard").value);
-    console.log(parseInt(document.getElementById("winBoard").value));
     if(bId>=0 && bId <winboards.length){
         winboard = winboards[bId];
         bId = boards.indexOf(winboard);
+        console.log("Checking board "+bId);
         if(bId == -1){
-           wipeBoard();
+            wipeBoard();
         }
         automateToggle = true;
     }
@@ -293,7 +293,6 @@ function draw(){
                 colony2[bId]);
         }
     };
-    //bId = 0;
     WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
