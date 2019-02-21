@@ -12,6 +12,33 @@
 //Now user uses colony1[0] -places player, named myPlayer. It is against colony2[0] - player named playerNN on a boards[0] - board.
 //New generation comes along only when game is won on boards[0].
 
+(function (logger) {
+    console.old = console.log;
+    console.log = function () {
+        var output = "", arg, i;
+
+        for (i = 0; i < arguments.length; i++) {
+            arg = arguments[i];
+            output += "<span class=\"log-" + (typeof arg) + "\">";
+
+            if (
+                typeof arg === "object" &&
+                typeof JSON === "object" &&
+                typeof JSON.stringify === "function"
+            ) {
+                output += JSON.stringify(arg);   
+            } else {
+                output += arg;   
+            }
+
+            output += "</span>&nbsp;";
+        }
+
+        logger.innerHTML += output + "<br>";
+        console.old.apply(undefined, arguments);
+    };
+})(document.getElementById("logger"))
+
 
 let cols;
 let rows;
@@ -54,7 +81,8 @@ let kierros= 0;
 
 function setup(){
     noLoop();
-    createCanvas(grid_size * w + 1, grid_size * w + 1);
+    let canvas = createCanvas(grid_size * w + 1, grid_size * w + 1);
+    canvas.parent("canvasHolder");
     cols = floor(width / w);
     rows = floor(height / w);
     
@@ -83,6 +111,7 @@ function colonize(){
     colony2[0]=playerNN;
     colony1[0]=myPlayer;
     boards[0]=boardNN;
+    console.log("Training...");
 
     for(let i = 1; i < colony_size; i++){
         colony1[i] = new Player1();

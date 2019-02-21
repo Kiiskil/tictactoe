@@ -33,7 +33,7 @@ class Player2{
 
     train(){
         //let trainingData = generateTrainingData();
-        console.log("Training");
+        //console.log("Training");
         for (let i= 0; i<trainingData.length/2;i++){
             this.brain.train(trainingData[i*2],trainingData[1+i*2]);
         }

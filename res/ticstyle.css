@@ -1,0 +1,17 @@
+body {background: #333;}
+.log-boolean,
+.log-undefined {color: magenta;}
+.log-object,
+.log-string {color: orange;}
+.log-number {color: cyan;
+}
+
+#info {
+    color: orange;
+}
+#gameConsole{
+    display: inline-block;
+}
+#canvasHolder{
+    float: left;
+}

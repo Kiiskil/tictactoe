@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>TIC-TAC-TOE</title>
-        
+        <link rel="stylesheet" type="text/css" href="res/ticstyle.css">
     </head>
     <body>
         <!-- <form id="frm1" action="transfer.php" method="POST">
@@ -9,16 +9,7 @@
             Win line amount: <input type="text" name="winline"><br><br>
             <input type="submit">
           </form> -->
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js'></script>
-        <script src='lib/nn.js'></script>
-        <script src='lib/matrix.js'></script>
-        <script src='res/sketch.js'></script>
-        <script src='res/Tile.js'></script>
-        <script src="res/nextegn.js"></script>
-        <script src="res/player.js"></script>
-        <script src="res/board.js"></script>
-        <script src="res/player2.js"></script>
-        <script src="res/train_NN.js"></script>
+    <div id="info">
         <div id="turn_screen"></div>
         <div id="player1"></div>
         <div id="player2"></div>
@@ -26,10 +17,25 @@
         <div id="gene"></div>
         <div id="wonStallRatio"></div>
         <div id="muuta"></div>
-        <input type="text" id="rounds">
-        <button id="auto" onclick="autoToggle()">AutoGenerate</button>
-        <button id="wb" onclick="wipeBoard()">Clean the board</button>
-        <input type="text" id="winBoard">
-        <button id="seeBoard" onclick="seeBoard()">See board</button>
+    </div>
+    <input type="text" id="rounds">
+    <button id="auto" onclick="autoToggle()">AutoGenerate</button>
+    <button id="wb" onclick="wipeBoard()">Clean the board</button>
+    <input type="text" id="winBoard">
+    <button id="seeBoard" onclick="seeBoard()">See board</button>
+    <div id="gameConsole">
+        <div id="canvasHolder"></div>
+        <pre id="logger"></pre>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js'></script>
+    <script src='lib/nn.js'></script>
+    <script src='lib/matrix.js'></script>
+    <script src='res/sketch.js'></script>
+    <script src='res/Tile.js'></script>
+    <script src="res/nextegn.js"></script>
+    <script src="res/player.js"></script>
+    <script src="res/board.js"></script>
+    <script src="res/player2.js"></script>
+    <script src="res/train_NN.js"></script>
     </body>
 </html>
