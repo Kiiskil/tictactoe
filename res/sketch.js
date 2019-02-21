@@ -20,6 +20,7 @@ let w = 30;
 let winner;
 let winner1;
 let winboard;
+let bId = 0;
 let genPer = [];
 let kierrosRajoitin = 0;
 
@@ -40,7 +41,7 @@ const target = 100;
 let fitMax= 0;
 let automateToggle = false;
 
-let colony_size = 5;////
+let colony_size = 50;////
 let playRounds = 50;////
 const winline = 5;////
 
@@ -129,34 +130,39 @@ function starta(newGen){
     if(newGen){
         colony1 = nextGeneration(colony1);
         colony2 = nextGeneration(colony2);
+        boards[0] = new Board;
     }
     colony1.forEach(player => {
         player.myTurn = true;
     });
+    draw();
 }
 
 //users functions
 function mousePressed() {
-    if(kierrosRajoitin == kierros){
-        kierrosRajoitin = 0;
-    }
     if(!automateToggle){
+        if(kierrosRajoitin == kierros){
+            kierrosRajoitin = 0;
+        }
         if(colony1[0].myTurn){
             for(let i=0; i < cols; i++){
                 for(let j=0; j < rows; j++){
                     if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
                         colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
                         boards[0].game[i][j].press(colony1[0],boards[0]);
+                        console.log("PEERKELE")
                         boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
+                        
                     }
                 }
             }
-            colony2[0].think(boards[0], colony1[0]);
+            colony2[0].think(boards[0],colony1[0]);
             draw();
         }
     }
     else{
-        //play();
+       // wipeBoard();
+        draw();
     }
 }
 
@@ -225,10 +231,11 @@ function gameOver(board,player,player1){
         winboards.push(board);
         if(player.name == "myPlayer" || player.name == "playerNN"){
             player.points += 100;
-            boardNN = new Board;
-            boards[0] = boardNN;
             starta(1);
-            if(!automateToggle)play();
+            if(!automateToggle){
+                play();
+                automateToggle = true;
+            }
         }
     }
     else {
@@ -252,18 +259,28 @@ function gameOver(board,player,player1){
 }
 
 function wipeBoard(){
+    automateToggle = false;
     boards[0] = new Board();
     winboard = boards[0]
+    bId= 0;
     draw();
 }
 
 function seeBoard(){
-    let bId = parseInt(document.getElementById("winBoard").value);
-   // console.log(parseInt(document.getElementById("winBoard").value));
-    if(bId>0 && bId <winboards.length){
+    bId = parseInt(document.getElementById("winBoard").value);
+    console.log(parseInt(document.getElementById("winBoard").value));
+    if(bId>=0 && bId <winboards.length){
         winboard = winboards[bId];
+        bId = boards.indexOf(winboard);
+        if(bId == -1){
+           wipeBoard();
+        }
+        automateToggle = true;
     }
-    else(console.log("Either bad language or there is no winning tables"))
+    else{
+        console.log("Either bad language or there is no winning tables")
+        bId = 0;
+    };
     draw();
 }
 
@@ -271,9 +288,12 @@ function draw(){
     background(255);
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            winboard.game[i][j].show(colony1[0],colony2[0]);
+            winboard.game[i][j].show(
+                colony1[bId],
+                colony2[bId]);
         }
     };
+    //bId = 0;
     WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
