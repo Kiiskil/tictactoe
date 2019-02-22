@@ -18,15 +18,21 @@
         <div id="wonStallRatio"></div>
         <div id="muuta"></div>
     </div>
-    <input type="text" id="rounds">
-    <button id="auto" onclick="autoToggle()">AutoGenerate</button>
-    <button id="wb" onclick="wipeBoard()">Clean the board</button>
-    <input type="text" id="winBoard">
-    <button id="seeBoard" onclick="seeBoard()">See board</button>
+    <div id="inputs">
+        <input class="input" type="text" id="rounds">
+        <button id="auto" onclick="autoToggle()">AutoGenerate</button>
+        <button id="wb" onclick="wipeBoard()">Clean the board</button>
+        <br>
+        <input class="input" type="text" id="winBoard">
+        <button id="seeBoard" onclick="seeBoard()">See board</button>
+    </div>
     <div id="gameConsole">
         <div id="canvasHolder"></div>
-        <pre id="logger"></pre>
+        <div id="loggerDiv">
+            <pre id="logger"></pre>
+        </div> 
     </div>
+    <div id="canvasFrame">Huhhu</div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js'></script>
     <script src='lib/nn.js'></script>
     <script src='lib/matrix.js'></script>

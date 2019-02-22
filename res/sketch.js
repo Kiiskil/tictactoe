@@ -12,34 +12,6 @@
 //Now user uses colony1[0] -places player, named myPlayer. It is against colony2[0] - player named playerNN on a boards[0] - board.
 //New generation comes along only when game is won on boards[0].
 
-(function (logger) {
-    console.old = console.log;
-    console.log = function () {
-        var output = "", arg, i;
-
-        for (i = 0; i < arguments.length; i++) {
-            arg = arguments[i];
-            output += "<span class=\"log-" + (typeof arg) + "\">";
-
-            if (
-                typeof arg === "object" &&
-                typeof JSON === "object" &&
-                typeof JSON.stringify === "function"
-            ) {
-                output += JSON.stringify(arg);   
-            } else {
-                output += arg;   
-            }
-
-            output += "</span>&nbsp;";
-        }
-
-        logger.innerHTML += output + "<br>";
-        console.old.apply(undefined, arguments);
-    };
-})(document.getElementById("logger"))
-
-
 let cols;
 let rows;
 let w = 30;
@@ -98,6 +70,39 @@ function setup(){
     play();
 }
 
+function consoleLog(rawContent){
+    let theDiv=document.getElementById("logger");
+    let content = document.createTextNode(rawContent+"\n");
+    theDiv.appendChild(content);
+    theDiv.appe
+}
+/* (function (logger) {
+    console.old = console.log;
+    console.log = function () {
+        var output = "", arg, i;
+
+        for (i = 0; i < arguments.length; i++) {
+            arg = arguments[i];
+            output += "<span class=\"log-" + (typeof arg) + "\">";
+
+            if (
+                typeof arg === "object" &&
+                typeof JSON === "object" &&
+                typeof JSON.stringify === "function"
+            ) {
+                output += JSON.stringify(arg);   
+            } else {
+                output += arg;   
+            }
+
+            output += "</span>&nbsp;";
+        }
+
+        logger.innerHTML += output + "<br>";
+        console.old.apply(undefined, arguments);
+    };
+})(document.getElementById("logger")) */
+
 //Make players and boards
 function colonize(){
     playerNN = new Player2();
@@ -111,7 +116,9 @@ function colonize(){
     colony2[0]=playerNN;
     colony1[0]=myPlayer;
     boards[0]=boardNN;
-    console.log("Training...");
+    let mesg = "Training...";
+    consoleLog(mesg);
+
 
     for(let i = 1; i < colony_size; i++){
         colony1[i] = new Player1();
@@ -129,7 +136,9 @@ function colonize(){
 //iterate over rounds
 function play(){
     let genPerGen = [];
-    console.log("Playing...")
+    let mesg = "Playing...";
+    consoleLog(mesg);
+
     for(let i = 0; i < playRounds;i++){
         for(let j = 1; j < colony_size; j++){
             if(colony2[j].myTurn){
@@ -141,12 +150,15 @@ function play(){
         } 
     }
 
-    //draw();
+    draw();
     genPerGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
     genPer.push(genPerGen);
-    console.log("All games finished. Results below:")
-    console.log(genPer);
-    console.log(results);
+    mesg = "All games finished. Results below:";
+    consoleLog(mesg);
+    mesg = genPer;
+    consoleLog(mesg);
+    mesg = results;
+    consoleLog(mesg);
 }
 
 //New generation it is called. New boards for everybody else, and initialize turns
@@ -297,19 +309,28 @@ function wipeBoard(){
 function seeBoard(){
     wipeBoard();
     bId = parseInt(document.getElementById("winBoard").value);
+    console.log(document.getElementById("winBoard").value);
+    console.log(bId);
     if(bId>=0 && bId <winboards.length){
+        //winboard = winboards[bId].copy();
         winboard = winboards[bId];
+        console.log(winboard);
         bId = boards.indexOf(winboard);
-        console.log("Checking board "+bId);
-        if(bId == -1){
-            wipeBoard();
+        if(bId==-1){
+            bId = 0;
         }
+        console.log("AFTER INDEX;" +bId);
+        mesg = "Checking board "+bId;
+        consoleLog(mesg);
         automateToggle = true;
     }
     else{
-        console.log("Either bad language or there is no winning tables")
+        mesg = "Either bad language or there is no winning tables";
+        consoleLog(mesg);
+        wipeBoard();
         bId = 0;
     };
+    //wipeBoard();
     draw();
 }
 
@@ -327,7 +348,7 @@ function draw(){
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
     document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;
     document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
-    document.getElementById("wonStallRatio").innerHTML = "Ratio of number of player won games over stalled games"+ WGratio;
+    document.getElementById("wonStallRatio").innerHTML = "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(2);
     //document.getElementById("muuta").innerHTML = 
 }
 

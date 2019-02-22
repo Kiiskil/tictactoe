@@ -9,11 +9,13 @@ class Board {
             }
         //console.log(this.game)
         this.name;
+        this.doom = doom;
         }
         else{
-            this.game = board;
+            this.name = board.name;
+            this.game = board.game;
+            this.doom = board.doom;
         }
-        this.doom = doom;
     }
     make2DArray(cols, rows){
         let arr = new Array(cols);
@@ -24,6 +26,6 @@ class Board {
     }
     
     copy(){
-        return new Board(this.game);
+        return new Board(this);
     }
 }

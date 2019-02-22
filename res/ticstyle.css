@@ -2,16 +2,54 @@ body {background: #333;}
 .log-boolean,
 .log-undefined {color: magenta;}
 .log-object,
-.log-string {color: orange;}
+.log-string {color: greenyellow;}
 .log-number {color: cyan;
 }
 
 #info {
-    color: orange;
+    margin: 0.5em;
+    margin-left: 1em;
+    color: greenyellow;
+    display: inline-block;
+    width: 100%;
+}
+#inputs{
+    margin: 0.5em;
+    margin-left: 1em;
+    display: inline-block;
+    width: 100%;
+}
+.input{
+    width: 40;
 }
 #gameConsole{
-    display: inline-block;
+    /*overflow: hidden;*/
+    height: 451;
 }
 #canvasHolder{
+    margin: 1em;
     float: left;
+    height: 100%;
+}
+#loggerDiv{
+    overflow: hidden;
+    height: 451;
+    float: left;
+    margin-left: 1em;
+    padding-bottom: 0.8em;
+}
+#logger{
+    overflow: scroll;
+    height: 451;
+    max-height: 451;
+    float: left;
+    width: 600;
+    color: greenyellow;
+}
+#canvasFrame{
+    float: left;
+    width: 100%;
+    color: greenyellow;
+    margin: 1em;
+    margin-top: 0;
 }
