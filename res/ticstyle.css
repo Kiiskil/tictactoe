@@ -8,14 +8,16 @@ body {background: #333;}
 
 #info {
     margin: 0.5em;
-    margin-left: 1em;
+    margin-left: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
     color: rgb(171, 254, 45);
     float: left;
     width: 100%;
 }
 #inputs{
     margin: 0.5em;
-    margin-left: 1em;
+    margin-left: 2em;
     display: inline-block;
     max-height: 42;
 }
@@ -31,17 +33,11 @@ body {background: #333;}
     height: 21;
     max-width: 500;
 }
-#winCount{
-    color:greenyellow;
-    margin:0;
-    width: 300;
-    overflow: hidden;
-    float: left;
-}
 #gameConsole{
     /*overflow: hidden;*/
     height: 483;
     margin-top: 1em;
+    margin-left: 1em;
 }
 #canvasHolder{
     margin: 1em;
@@ -89,4 +85,12 @@ body {background: #333;}
     color: greenyellow;
     margin: 1em;
     margin-top: 0;
+    margin-left: 2em;
+}
+#winCount{
+    color:greenyellow;
+    margin:0;
+    width: 500;
+    overflow: hidden;
+    float: left;
 }

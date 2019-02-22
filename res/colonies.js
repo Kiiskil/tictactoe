@@ -58,7 +58,6 @@ function starta(newGen){
 
 //iterate over rounds
 function play(){
-    let index = winboards.length;
     let genInfoGen = [];
     consoleLog("Playing...");
 
@@ -77,4 +76,27 @@ function play(){
     consoleLog("All games finished. Results on the second screen.");
     consoleLog(genInfo[genInfo.length-1]);
     consolePlayLog(results);
+}
+
+function autoToggle() {
+    //automate a function similar to mousePressed()
+    if (!automateToggle){
+        autoRounds =  parseInt(document.getElementById("rounds").value);
+        if(autoRoundsRajoitin<(autoRounds-1)){
+            automateToggle = true;
+            autoRoundsRajoitin++;
+        }
+    }
+    if(automateToggle){
+        starta(1);
+        play()
+        automateToggle = false;
+        if(colony1[0].myTurn){
+            colony1[0].think(boards[0], colony2[0]);
+            colony2[0].think(boards[0], colony1[0]);
+            }
+        showBoard = boards[0];
+        draw();
+        autoToggle();
+    }
 }

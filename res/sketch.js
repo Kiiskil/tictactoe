@@ -48,6 +48,7 @@ function mousePressed() {
     if(!automateToggle){
         if(autoRoundsRajoitin == autoRounds){
             autoRoundsRajoitin = 0;
+            boards[0].copyEmpty();
         }
         if(colony1[0].myTurn){
             for(let i=0; i < cols; i++){
@@ -65,28 +66,7 @@ function mousePressed() {
     }
     else{
         draw();
-    }
-}
-
-function autoToggle() {
-    //automate a function similar to mousePressed()
-    if (!automateToggle){
-        autoRounds =  parseInt(document.getElementById("rounds").value);
-        if(autoRoundsRajoitin<autoRounds){
-            automateToggle = true;
-            autoRoundsRajoitin++;
-        }
-    }
-    if(automateToggle){
-        starta(1);
-        play()
-        automateToggle = false;
-        if(colony1[0].myTurn){
-            colony1[0].think(boards[0], colony2[0]);
-            }
-        colony2[0].think(boards[0], colony1[0]);
-        showBoard = boards[0].copy();
-        autoToggle();
+        automateToggle = true;
     }
 }
 
@@ -156,6 +136,7 @@ function gameOver(board,player,player1){
 
 function draw(){
     background(255);
+    document.getElementById("winCount").innerHTML = "";
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
             showBoard.game[i][j].show(showBoard);
@@ -164,10 +145,10 @@ function draw(){
     WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
-    document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;
-    document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
-    document.getElementById("wonStallRatio").innerHTML = "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(2);
-    document.getElementById("winCount").innerHTML = "There are currently "+winboards.length+" won boards."
+    document.getElementById("winCount").innerHTML += "Generaatio: "+ colony1[0].generation+"<br>";
+    document.getElementById("winCount").innerHTML += "Colony size: :"+ colony1.length+"<br>";
+    document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(2)+"<br>";
+    document.getElementById("winCount").innerHTML += "There are currently "+winboards.length+" won boards."+"<br>";
     //document.getElementById("muuta").innerHTML = 
 }
 

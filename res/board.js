@@ -58,6 +58,8 @@ function wipeBoard(){
     boards[0].playerUno = myPlayer;
     boards[0].playerDeux = playerNN; */
     showBoard = boards[0].copy();
+    winner = myPlayer;
+    winner1 = playerNN;
     draw();
 }
 
