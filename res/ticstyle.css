@@ -9,7 +9,7 @@ body {background: #333;}
 #info {
     margin: 0.5em;
     margin-left: 1em;
-    color: greenyellow;
+    color: rgb(171, 254, 45);
     float: left;
     width: 100%;
 }
@@ -58,7 +58,22 @@ body {background: #333;}
     height: 451;
     max-height: 451;
     float: left;
-    width: 600;
+    width: 300;
+    color: greenyellow;
+}
+#playLoggerDiv{
+    overflow: hidden;
+    height: 451;
+    float: left;
+    margin-left: 1em;
+    padding-bottom: 1em;
+}
+#playLogger{
+    overflow: scroll;
+    height: 451;
+    max-height: 451;
+    float: left;
+    width: 300;
     color: greenyellow;
 }
 #canvasFrame{

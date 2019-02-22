@@ -7,8 +7,7 @@ Iiro Laukkanen, 2019
 Normal Tic-Tac-Toe, but there is an opponent which is controlled by NN.
 Idea is to check how training of NN happens.
 
-Atm there are 25 opposing playerpairs and one of the players is user controlled.
-Everytime user or opponent wins, another generation is generated.
+Some tyling added, there are few controls and a second HTML-logscreen has been added.
 
 #Next I want to add a training-mode, where NN can iterate over set amount of generations or some other goal.
     #Automate either myPlayer or mouseclick. OF course it's myPlayer, but I have to figure out how to stop the iterations OR how to start, if stop is automated. !!DONE!!

@@ -8,7 +8,6 @@
 
 //TODO
 //check mutation / incentive / points - calculations
-//Do iterative training-mode which works without user
 //Now user uses colony1[0] -places player, named myPlayer. It is against colony2[0] - player named playerNN on a boards[0] - board.
 //New generation comes along only when game is won on boards[0].
 
@@ -39,9 +38,9 @@ const target = 100;
 let fitMax= 0;
 let automateToggle = false;
 
-let colony_size = 5;////
+let colony_size = 50;////
 let playRounds = 50;////
-const winline = 3;////
+const winline = 5;////
 
 let trainingData = [];
 let kierros= 0;
@@ -67,40 +66,22 @@ function setup(){
 }
 
 function consoleLog(rawContent){
+    //writes text in a pre-element in site.
     let theDiv=document.getElementById("logger");
     let content = document.createTextNode(rawContent+"\n");
-    theDiv.appendChild(content);
+    theDiv.prepend(content);
     draw();
 }
-/* (function (logger) {
-    console.old = console.log;
-    console.log = function () {
-        var output = "", arg, i;
+function consolePlayLog(rawContent){
+      //writes text in a pre-element in site.
+      let theDiv=document.getElementById("playLogger");
+      let content = document.createTextNode(rawContent+"\n");
+      theDiv.prepend(content);
+      draw();
+}
 
-        for (i = 0; i < arguments.length; i++) {
-            arg = arguments[i];
-            output += "<span class=\"log-" + (typeof arg) + "\">";
-
-            if (
-                typeof arg === "object" &&
-                typeof JSON === "object" &&
-                typeof JSON.stringify === "function"
-            ) {
-                output += JSON.stringify(arg);   
-            } else {
-                output += arg;   
-            }
-
-            output += "</span>&nbsp;";
-        }
-
-        logger.innerHTML += output + "<br>";
-        console.old.apply(undefined, arguments);
-    };
-})(document.getElementById("logger")) */
-
-//Make players and boards
 function colonize(){
+    //Make players and boards
     playerNN = new Player2();
     myPlayer = new Player1();
     playerNN.train();
@@ -117,8 +98,7 @@ function colonize(){
     showBoard = boards[0];
     winner = colony1[0];
     winner1 = colony2[0];
-    let mesg = "Training...";
-    consoleLog(mesg);
+    consoleLog("Training...");
 
     for(let i = 1; i < colony_size; i++){
         colony1[i] = new Player1();
@@ -136,9 +116,9 @@ function colonize(){
 
 //iterate over rounds
 function play(){
+    let index = winboards.length;
     let genPerGen = [];
-    let mesg = "Playing...";
-    consoleLog(mesg);
+    consoleLog("Playing...");
 
     for(let i = 0; i < playRounds;i++){
         for(let j = 1; j < colony_size; j++){
@@ -152,12 +132,11 @@ function play(){
     }
     genPerGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
     genPer.push(genPerGen);
-    mesg = "All games finished. Results below:";
-    consoleLog(mesg);
-    mesg = genPer[genPer.length-1];
-    consoleLog(mesg);
-    mesg = results;
-    consoleLog(mesg);
+    consoleLog("All games finished. Results below:");
+    consoleLog(genPer[genPer.length-1]);
+    for(let i = index; i < winboards.length;i++){
+         consolePlayLog(results[i]);
+    }
 }
 
 //New generation it is called. New boards for everybody else, and initialize turns
@@ -173,8 +152,7 @@ function starta(newGen){
     for(let i = 1; i < colony_size; i++){
         boards[i] = boards[i].copyEmpty();
     }
-    let mesg = "Generation "+ colony1[1].generation +" have been born.";
-    consoleLog(mesg);
+    consoleLog("Generation "+ colony1[1].generation +" have been born.");
 }
 
 //users functions
@@ -204,6 +182,7 @@ function mousePressed() {
 }
 
 function autoToggle() {
+    //automate a function similar to mousePressed()
     if (!automateToggle){
         kierros =  parseInt(document.getElementById("rounds").value);
         if(kierrosRajoitin<kierros){
@@ -231,11 +210,11 @@ function autoToggle() {
     }
 }
 
-//If gameOver is called, function nullifies turns for that board and those players. New boards are generated, and if user (or oppnent) wins, calls for new generation 
+//If gameOver is called, function nullifies turns for that board and those players. New boards are generated, and if user (or oppnent) wins, 
+//calls for new generation 
+//also every player's points are calculated here.
 function gameOver(board,player,player1){
     let resultsTMP = [];
-    let resultsTMP1 = [];
-    let resultsTMP2 = [];
     draw();
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
@@ -256,15 +235,16 @@ function gameOver(board,player,player1){
     if(player1.win==0){player1.points -=50}
 
     if(player.win){
+        //if any player wins
         player.points += 100;
         player.wins += 1;
         resultsTMP[0] = " Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString();
         player.win = 0;
         wonGames++;
-        //copy() toimii!!
         winboards.push(board.copy());
         if(player.name == "myPlayer" || player.name == "playerNN"){
             player.points += 100;
+            //new generation
             starta(1);
             if(!automateToggle){
                 play();
@@ -273,25 +253,24 @@ function gameOver(board,player,player1){
         }
     }
     else {
-        resultsTMP1[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
+        //if result of game is draw
+        resultsTMP[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = boardNN.copyEmpty();
+            //new boards
             starta(0);
             if(!automateToggle)play();
         }
         else{
+            //all other stalled games are restarted without new generation
             board = board.copyEmpty();
             stalledGames++;
         }
     }
-    //because just one gemOver() happens at time, do I need three arrays for this?
-    resultsTMP2.push(resultsTMP[0]);
-    resultsTMP2.push(resultsTMP1[0]);
-    results.push(resultsTMP2.join());
+    results.push(resultsTMP[0]);
 }
 
 function wipeBoard(){
-    //reset user's board
     automateToggle = false;
     /* boards[0] = new Board();
     boards[0].playerUno = myPlayer;
@@ -308,13 +287,11 @@ function seeBoard(){
     if(bId>=0 && bId <winboards.length){
         showBoard = winboards[bId].copy();
         bId++;
-        mesg = "Checking number "+bId +" finished board: "+ showBoard.name;
-        consoleLog(mesg);
+        consoleLog("Checking number "+bId +" finished board: "+ showBoard.name);
         automateToggle = true;
     }
     else{
-        mesg = "Either bad language or there is no winning tables";
-        consoleLog(mesg);
+        consoleLog("Either bad language or there is no winning tables");
         wipeBoard();
     };
     winner = showBoard.playerUno;

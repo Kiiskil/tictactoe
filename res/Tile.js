@@ -24,6 +24,7 @@ Tile.prototype.show = function(board) {
             rect(this.x+this.w * 0.25, this.y+this.w * 0.25, this.w * 0.5, this.w * 0.5)
         }
         else if(this.class == board.playerDeux.name){
+            fill(171, 254, 45)
             ellipse(this.x+this.w * 0.5, this.y+this.w * 0.5, this.w * 0.5)
         }
         else {
