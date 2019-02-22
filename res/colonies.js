@@ -31,10 +31,10 @@ function colonize(){
         colony1[i] = new Player1();
         colony1[i].name = "Teppo"+i;
         colony1[i].myTurn = true;
-        colony1[i].train();
+        //colony1[i].train();
         colony2[i] = new Player2();
         colony2[i].name = "Liisa"+i;
-        colony2[i].train();
+        //colony2[i].train();
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
         boards[i].playerUno = colony1[i];
@@ -60,20 +60,19 @@ function starta(newGen){
 function play(){
     let genInfoGen = [];
     consoleLog("Playing...");
-
-    for(let i = 0; i < playRounds;i++){
-        for(let j = 1; j < colony_size; j++){
-            if(colony2[j].myTurn){
-                colony2[j].think(boards[j], colony1[j])
-            }
-            else if(colony1[j].myTurn){
-                colony1[j].think(boards[j], colony2[j]);
-            }
-        } 
-    }
-    genInfoGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
+        for(let i = 0; i < playRounds;i++){
+            for(let j = 1; j < colony_size; j++){
+                if(colony2[j].myTurn){
+                    colony2[j].think(boards[j], colony1[j])
+                }
+                else if(colony1[j].myTurn){
+                    colony1[j].think(boards[j], colony2[j]);
+                }
+            } 
+        };
+    genInfoGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toFixed(2).toString()+", MAX FITN: "+fitMax.toFixed(2).toString();
     genInfo.push(genInfoGen);
-    consoleLog("All games finished. Results on the second screen.");
+    consoleLog("All games finished.");
     consoleLog(genInfo[genInfo.length-1]);
     consolePlayLog(results);
 }
@@ -91,11 +90,11 @@ function autoToggle() {
         starta(1);
         play()
         automateToggle = false;
-        if(colony1[0].myTurn){
+        if(colony1[0].myTurn && autoRounds < (autoRoundsRajoitin-1)){
             colony1[0].think(boards[0], colony2[0]);
             colony2[0].think(boards[0], colony1[0]);
             }
-        showBoard = boards[0];
+        showBoard = boards[0].copy();
         draw();
         autoToggle();
     }

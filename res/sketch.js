@@ -19,6 +19,7 @@ let WGratio = 0;
 let results =[];
 
 const target = 100;
+let pointsConn = 3;
 
 let automateToggle = false;
 let autoRounds= 0;
@@ -79,10 +80,10 @@ function gameOver(board,player,player1){
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
             if(board.game[i][j].class==player.name){
-                player.points += points_symb;
+                player.points += pointsConn;
             }
             if(board.game[i][j].class == player1.name){
-                 player1.points += points_symb;
+                 player1.points += pointsConn;
              }
         }
     }
@@ -100,7 +101,7 @@ function gameOver(board,player,player1){
         player.points += 100;
         player.wins += 1;
         results.push(" Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString());
-        results.push("Stored at: "+(winboards.length-1));
+        results.push("Stored at: "+winboards.length);
         player.win = 0;
         wonGames++;
         
@@ -146,9 +147,10 @@ function draw(){
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
     document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
     document.getElementById("winCount").innerHTML += "Generaatio: "+ colony1[0].generation+"<br>";
-    document.getElementById("winCount").innerHTML += "Colony size: :"+ colony1.length+"<br>";
-    document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(2)+"<br>";
+    document.getElementById("winCount").innerHTML += "Colony size: "+ colony1.length+"<br>";
+    document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(4)+"<br>";
     document.getElementById("winCount").innerHTML += "There are currently "+winboards.length+" won boards."+"<br>";
+    document.getElementById("winCount").innerHTML += "There are currently "+results.length+" games played."+"<br>";
     //document.getElementById("muuta").innerHTML = 
 }
 

@@ -8,7 +8,7 @@ function consoleLog(rawContent){
     let theDiv=document.getElementById("logger");
     let strContent = rawContent.toString();
     let tmpArr = strContent.split('');
-    let timer = window.setInterval(function(){
+    /* let timer = window.setInterval(function(){
         let tmpArrarr= [];
         for(let i = 0; i <= charCount; i++){
             let ind = i+j;
@@ -19,10 +19,8 @@ function consoleLog(rawContent){
         theDiv.appendChild(log);
         j = j+tmpArrarr.length-1;
         if(j>=tmpArr.length){ clearInterval(timer);}
-    },1000);
-    
-
-   /*  for(let j = 0; j < tmpArr.length;j++){
+    },1000); */
+    for(let j = 0; j < tmpArr.length;j++){
         let tmpArrarr= [];
         for(let i = 0; i <= charCount; i++){
             let ind = i+j;
@@ -32,7 +30,7 @@ function consoleLog(rawContent){
         let content=tmpArrarr.join('');
         let log = document.createTextNode(content+"\n");
         theDiv.appendChild(log);
-    } */
+    }
     draw();
 }
 function consolePlayLog(rawContent){
