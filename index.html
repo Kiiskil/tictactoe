@@ -19,12 +19,18 @@
         <div id="muuta"></div>
     </div>
     <div id="inputs">
-        <input class="input" type="text" id="rounds">
-        <button id="auto" onclick="autoToggle()">AutoGenerate</button>
-        <button id="wb" onclick="wipeBoard()">Clean the board</button>
-        <br>
-        <input class="input" type="text" id="winBoard">
-        <button id="seeBoard" onclick="seeBoard()">See board</button>
+        <div class = "infoHolder">
+            <input class="input" type="text" id="rounds">
+            <button class="button" id="auto" onclick="autoToggle()">AutoGenerate</button>
+            <button class="button" id="wb" onclick="wipeBoard()">My board</button>
+        </div>
+        <div class = "infoHolder">
+            <div class = "infoHolder">
+                <input class="input" type="text" id="winBoard">
+                <button class="button" id="seeBoard" onclick="seeBoard()">See winning board</button>
+            </div>
+            
+        </div>
     </div>
     <div id="gameConsole">
         <div id="canvasHolder"></div>
@@ -32,7 +38,11 @@
             <pre id="logger"></pre>
         </div> 
     </div>
-    <div id="canvasFrame">Huhhu</div>
+    <div id="canvasFrame">
+        <div class = "infoHolder">
+            <pre id ="winCount"></pre>
+        </div>
+    </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js'></script>
     <script src='lib/nn.js'></script>
     <script src='lib/matrix.js'></script>

@@ -18,8 +18,7 @@ let w = 30;
 
 let winner;
 let winner1;
-let winboard;
-let bId = 0;
+let showBoard;
 let genPer = [];
 let kierrosRajoitin = 0;
 
@@ -40,9 +39,9 @@ const target = 100;
 let fitMax= 0;
 let automateToggle = false;
 
-let colony_size = 50;////
+let colony_size = 5;////
 let playRounds = 50;////
-const winline = 5;////
+const winline = 3;////
 
 let trainingData = [];
 let kierros= 0;
@@ -60,9 +59,6 @@ function setup(){
     
     colonize();
     trainingData = generateTrainingData();
-    winboard = boards[0];
-    winner = colony1[0];
-    winner1 = colony2[0];
     draw();
     colony1.forEach(player => {
         player.myTurn = true;
@@ -74,7 +70,7 @@ function consoleLog(rawContent){
     let theDiv=document.getElementById("logger");
     let content = document.createTextNode(rawContent+"\n");
     theDiv.appendChild(content);
-    theDiv.appe
+    draw();
 }
 /* (function (logger) {
     console.old = console.log;
@@ -112,25 +108,30 @@ function colonize(){
     playerNN.name = "playerNN"
     myPlayer.name = "myPlayer"
     boardNN.name  = "boardNN"
+    boardNN.playerUno = myPlayer;
+    boardNN.playerDeux = playerNN;
     myPlayer.myTurn = true;
     colony2[0]=playerNN;
     colony1[0]=myPlayer;
     boards[0]=boardNN;
+    showBoard = boards[0];
+    winner = colony1[0];
+    winner1 = colony2[0];
     let mesg = "Training...";
     consoleLog(mesg);
 
-
     for(let i = 1; i < colony_size; i++){
         colony1[i] = new Player1();
-        colony1[i].name = "Teppo" + i;
+        colony1[i].name = "Teppo"+i;
         colony1[i].myTurn = true;
         colony1[i].train();
         colony2[i] = new Player2();
-        colony2[i].name = "Liisa" + i;
+        colony2[i].name = "Liisa"+i;
         colony2[i].train();
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
-    }
+        boards[i].playerUno = colony1[i];
+        boards[i].playerDeux = colony2[i];    }
 }
 
 //iterate over rounds
@@ -149,13 +150,11 @@ function play(){
             }
         } 
     }
-
-    draw();
     genPerGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
     genPer.push(genPerGen);
     mesg = "All games finished. Results below:";
     consoleLog(mesg);
-    mesg = genPer;
+    mesg = genPer[genPer.length-1];
     consoleLog(mesg);
     mesg = results;
     consoleLog(mesg);
@@ -163,20 +162,19 @@ function play(){
 
 //New generation it is called. New boards for everybody else, and initialize turns
 function starta(newGen){
-    for(let i = 1; i < colony_size; i++){
-        boards[i] = new Board();
-        boards[i].name = "Lauta" + i;
-        //colony1[i].myTurn = true;
-    }
     if(newGen){
         colony1 = nextGeneration(colony1);
         colony2 = nextGeneration(colony2);
-        boards[0] = new Board;
+        boards[0] = boards[0].copyEmpty();
     }
     colony1.forEach(player => {
         player.myTurn = true;
     });
-    draw();
+    for(let i = 1; i < colony_size; i++){
+        boards[i] = boards[i].copyEmpty();
+    }
+    let mesg = "Generation "+ colony1[1].generation +" have been born.";
+    consoleLog(mesg);
 }
 
 //users functions
@@ -201,14 +199,12 @@ function mousePressed() {
         }
     }
     else{
-       // wipeBoard();
         draw();
     }
 }
 
 function autoToggle() {
     if (!automateToggle){
-        //console.log("AUTOMAATTIII");
         kierros =  parseInt(document.getElementById("rounds").value);
         if(kierrosRajoitin<kierros){
             automateToggle = true;
@@ -240,10 +236,7 @@ function gameOver(board,player,player1){
     let resultsTMP = [];
     let resultsTMP1 = [];
     let resultsTMP2 = [];
-    //winboard = board.copy();
     draw();
-    winner = colony1[0];
-    winner1 = colony2[0];
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
             if(board.game[i][j].class==player.name){
@@ -265,10 +258,11 @@ function gameOver(board,player,player1){
     if(player.win){
         player.points += 100;
         player.wins += 1;
-        resultsTMP[0] = "Player " + player.name.toString(); + " wins at "+ boards.indexOf(board).toString();
+        resultsTMP[0] = " Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString();
         player.win = 0;
         wonGames++;
-        winboards.push(board);
+        //copy() toimii!!
+        winboards.push(board.copy());
         if(player.name == "myPlayer" || player.name == "playerNN"){
             player.points += 100;
             starta(1);
@@ -281,46 +275,40 @@ function gameOver(board,player,player1){
     else {
         resultsTMP1[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
         if(player.name == "myPlayer" || player.name == "playerNN"){
-            boardNN = new Board();
-            boards[0] = boardNN;
+            boardNN = boardNN.copyEmpty();
             starta(0);
             if(!automateToggle)play();
         }
         else{
-            let tmp = board.name;
-            board = new Board();
-            board.name = tmp;
+            board = board.copyEmpty();
             stalledGames++;
         }
     }
+    //because just one gemOver() happens at time, do I need three arrays for this?
     resultsTMP2.push(resultsTMP[0]);
     resultsTMP2.push(resultsTMP1[0]);
     results.push(resultsTMP2.join());
 }
 
 function wipeBoard(){
+    //reset user's board
     automateToggle = false;
-    boards[0] = new Board();
-    winboard = boards[0]
-    bId= 0;
+    /* boards[0] = new Board();
+    boards[0].playerUno = myPlayer;
+    boards[0].playerDeux = playerNN; */
+    showBoard = boards[0].copy();
     draw();
 }
 
 function seeBoard(){
+    //take user's argument as index of won boards, and show that board
     wipeBoard();
-    bId = parseInt(document.getElementById("winBoard").value);
-    console.log(document.getElementById("winBoard").value);
-    console.log(bId);
+     let bId = parseInt(document.getElementById("winBoard").value);
+     bId--;
     if(bId>=0 && bId <winboards.length){
-        //winboard = winboards[bId].copy();
-        winboard = winboards[bId];
-        console.log(winboard);
-        bId = boards.indexOf(winboard);
-        if(bId==-1){
-            bId = 0;
-        }
-        console.log("AFTER INDEX;" +bId);
-        mesg = "Checking board "+bId;
+        showBoard = winboards[bId].copy();
+        bId++;
+        mesg = "Checking number "+bId +" finished board: "+ showBoard.name;
         consoleLog(mesg);
         automateToggle = true;
     }
@@ -328,9 +316,9 @@ function seeBoard(){
         mesg = "Either bad language or there is no winning tables";
         consoleLog(mesg);
         wipeBoard();
-        bId = 0;
     };
-    //wipeBoard();
+    winner = showBoard.playerUno;
+    winner1 = showBoard.playerDeux;
     draw();
 }
 
@@ -338,10 +326,8 @@ function draw(){
     background(255);
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
-            winboard.game[i][j].show(
-                colony1[bId],
-                colony2[bId]);
-        }
+            showBoard.game[i][j].show(showBoard);
+           }
     };
     WGratio = wonGames/stalledGames;
     document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
@@ -349,6 +335,7 @@ function draw(){
     document.getElementById("gene").innerHTML = "Generaatio :"+ colony1[0].generation;
     document.getElementById("colony").innerHTML = "Colony size: :"+ colony1.length;
     document.getElementById("wonStallRatio").innerHTML = "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(2);
+    document.getElementById("winCount").innerHTML = "There are currently "+winboards.length+" won boards."
     //document.getElementById("muuta").innerHTML = 
 }
 

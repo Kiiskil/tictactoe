@@ -14,15 +14,16 @@ function Tile(x, y, w) {
 
 }
 
-Tile.prototype.show = function(player,player1) {
+Tile.prototype.show = function(board) {
     stroke(0);
     noFill();
     rect(this.x, this.y, this.w, this.w);
     if (this.used) {
-        if(this.class == player.name){
+        if(this.class == board.playerUno.name){
+            fill(0);
             rect(this.x+this.w * 0.25, this.y+this.w * 0.25, this.w * 0.5, this.w * 0.5)
         }
-        else if(this.class == player1.name){
+        else if(this.class == board.playerDeux.name){
             ellipse(this.x+this.w * 0.5, this.y+this.w * 0.5, this.w * 0.5)
         }
         else {
