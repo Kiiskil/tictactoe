@@ -4,6 +4,9 @@ let colony1 = [colony_size];
 let colony2 = [colony_size];
 let fitMax= 0;
 
+let playRounds = 50;////
+const winline = 5;////
+
 function colonize(){
     //Make players and boards
     playerNN = new Player2();
@@ -51,4 +54,27 @@ function starta(newGen){
         boards[i] = boards[i].copyEmpty();
     }
     consoleLog("Generation "+ colony1[1].generation +" have been born.");
+}
+
+//iterate over rounds
+function play(){
+    let index = winboards.length;
+    let genInfoGen = [];
+    consoleLog("Playing...");
+
+    for(let i = 0; i < playRounds;i++){
+        for(let j = 1; j < colony_size; j++){
+            if(colony2[j].myTurn){
+                colony2[j].think(boards[j], colony1[j])
+            }
+            else if(colony1[j].myTurn){
+                colony1[j].think(boards[j], colony2[j]);
+            }
+        } 
+    }
+    genInfoGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
+    genInfo.push(genInfoGen);
+    consoleLog("All games finished. Results on the second screen.");
+    consoleLog(genInfo[genInfo.length-1]);
+    consolePlayLog(results);
 }

@@ -41,9 +41,11 @@ body {background: #333;}
 #gameConsole{
     /*overflow: hidden;*/
     height: 483;
+    margin-top: 1em;
 }
 #canvasHolder{
     margin: 1em;
+    margin-top: 0;
     float: left;
 }
 #loggerDiv{
@@ -51,32 +53,35 @@ body {background: #333;}
     height: 451;
     float: left;
     margin-left: 1em;
-    padding-bottom: 1em;
+    margin-bottom: 1em;
+    
 }
 #logger{
     overflow: scroll;
-    height: 451;
-    max-height: 451;
+    height: 470;
+    max-height: 470;
     float: left;
     width: 300;
     color: greenyellow;
     word-wrap: break-word;
+    margin-top: 0;
 }
 #playLoggerDiv{
     overflow: hidden;
     height: 451;
     float: left;
     margin-left: 1em;
-    padding-bottom: 1em;
+    margin-bottom: 1em;  
 }
 #playLogger{
     overflow: scroll;
-    height: 451;
-    max-height: 451;
+    height: 470;
+    max-height: 470;
     float: left;
     width: 300;
     color: greenyellow;
     word-wrap: break-word;
+    margin-top: 0;
 }
 #canvasFrame{
     float: left;

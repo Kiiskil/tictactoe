@@ -24,9 +24,6 @@ let automateToggle = false;
 let autoRounds= 0;
 let autoRoundsRajoitin = 0;
 
-let playRounds = 50;////
-const winline = 5;////
-
 //let boardNN.game_size= "<?php echo $_POST['boardNN.game_size']?>";
 //let winline = "<?php echo $_POST['winline']?>";
 
@@ -46,31 +43,6 @@ function setup(){
     play();
 }
 
-//iterate over rounds
-function play(){
-    let index = winboards.length;
-    let genInfoGen = [];
-    consoleLog("Playing...");
-
-    for(let i = 0; i < playRounds;i++){
-        for(let j = 1; j < colony_size; j++){
-            if(colony2[j].myTurn){
-                colony2[j].think(boards[j], colony1[j])
-            }
-            else if(colony1[j].myTurn){
-                colony1[j].think(boards[j], colony2[j]);
-            }
-        } 
-    }
-    genInfoGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toString()+", MAX FITN: "+fitMax.toString();
-    genInfo.push(genInfoGen);
-    consoleLog("All games finished. Results on the second screen.");
-    consoleLog(genInfo[genInfo.length-1]);
-    for(let i = index; i < winboards.length;i++){
-         consolePlayLog(results[i]);
-    }
-}
-
 //users functions
 function mousePressed() {
     if(!automateToggle){
@@ -84,7 +56,6 @@ function mousePressed() {
                         colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
                         boards[0].game[i][j].press(colony1[0],boards[0]);
                         boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
-                        
                     }
                 }
             }
@@ -111,18 +82,11 @@ function autoToggle() {
         play()
         automateToggle = false;
         if(colony1[0].myTurn){
-            for(let i=0; i < cols; i++){
-                for(let j=0; j < rows; j++){
-                    if(boards[0].game[i][j].locx == Math.floor(mouseX/w) && boards[0].game[i][j].locy == Math.floor(mouseY/w)){
-                        colony2[0].myTurn = true;//ÄLÄ NYT ENÄÄ SIIRRÄ TÄTÄ FUNKTIOIDEN ALLE!!!
-                        boards[0].game[i][j].press(colony1[0],boards[0]);
-                        boards[0].game[i][j].win(colony1[0],colony2[0],boards[0]);
-                    }
-                }
+            colony1[0].think(boards[0], colony2[0]);
             }
-            colony2[0].think(boards[0], colony1[0]);
-            autoToggle();
-        }
+        colony2[0].think(boards[0], colony1[0]);
+        showBoard = boards[0].copy();
+        autoToggle();
     }
 }
 
@@ -152,12 +116,14 @@ function gameOver(board,player,player1){
 
     if(player.win){
         //if any player wins
+        winboards.push(board.copy());
         player.points += 100;
         player.wins += 1;
-        resultsTMP[0] = " Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString();
+        results.push(" Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString());
+        results.push("Stored at: "+(winboards.length-1));
         player.win = 0;
         wonGames++;
-        winboards.push(board.copy());
+        
         if(player.name == "myPlayer" || player.name == "playerNN"){
             player.points += 100;
             //new generation
@@ -175,7 +141,9 @@ function gameOver(board,player,player1){
             boardNN = boardNN.copyEmpty();
             //new boards
             starta(0);
-            if(!automateToggle)play();
+            if(!automateToggle){
+                play();
+            }
         }
         else{
             //all other stalled games are restarted without new generation
@@ -183,7 +151,7 @@ function gameOver(board,player,player1){
             stalledGames++;
         }
     }
-    results.push(resultsTMP[0]);
+    results.push(resultsTMP.join());
 }
 
 function draw(){
