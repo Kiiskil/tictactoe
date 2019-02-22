@@ -82,7 +82,7 @@ function autoToggle() {
     //automate a function similar to mousePressed()
     if (!automateToggle){
         autoRounds =  parseInt(document.getElementById("rounds").value);
-        if(autoRoundsRajoitin<(autoRounds-1)){
+        if(autoRoundsRajoitin<autoRounds){
             automateToggle = true;
             autoRoundsRajoitin++;
         }
