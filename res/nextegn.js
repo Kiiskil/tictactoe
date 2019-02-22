@@ -23,6 +23,7 @@ function pickOne(colony){
    let r = random(1);
    let newPlayer;
 
+   //The higher the fitness, the better chances to get picked 
    while ( r > 0){
        r = r - colony[index].fitness;
        index++;
@@ -30,7 +31,7 @@ function pickOne(colony){
    index--;
    newPlayer = colony[index].copy(colony[index].generation);
    newPlayer.generation += 1;
-   //console.log("GENERAATIO :"+newPlayer.generation);
+
    return newPlayer;
 }
 

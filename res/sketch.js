@@ -144,13 +144,13 @@ function draw(){
            }
     };
     WGratio = wonGames/stalledGames;
-    document.getElementById("player1").innerHTML = winner.name+" "+ winner.points;
-    document.getElementById("player2").innerHTML = winner1.name+" "+ winner1.points;
-    document.getElementById("winCount").innerHTML += "Generaatio: "+ colony1[0].generation+"<br>";
-    document.getElementById("winCount").innerHTML += "Colony size: "+ colony1.length+"<br>";
-    document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  "+  WGratio.toFixed(4)+"<br>";
-    document.getElementById("winCount").innerHTML += "There are currently "+winboards.length+" won boards."+"<br>";
-    document.getElementById("winCount").innerHTML += "There are currently "+results.length+" games played."+"<br>";
+    document.getElementById("player1").innerHTML = winner.name + " " + winner.points;
+    document.getElementById("player2").innerHTML = winner1.name + " " + winner1.points;
+    document.getElementById("winCount").innerHTML += "Generation: " + colony1[0].generation +"<br>";
+    document.getElementById("winCount").innerHTML += "Colony size: " + colony1.length+"<br>";
+    document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  " +  WGratio.toFixed(4)+"<br>";
+    document.getElementById("winCount").innerHTML += "There are currently " + winboards.length + " won boards." + "<br>";
+    document.getElementById("winCount").innerHTML += "There are currently " + results.length + " games played." + "<br>";
     //document.getElementById("muuta").innerHTML = 
 }
 

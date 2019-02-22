@@ -71,7 +71,7 @@ function seeBoard(){
     if(bId>=0 && bId <winboards.length){
         showBoard = winboards[bId].copy();
         bId++;
-        consoleLog("Checking number "+bId +"<br>    Finished board: "+ showBoard.name);
+        consoleLog("Checking number "+bId +": Finished board: "+ showBoard.name);
         automateToggle = true;
     }
     else{

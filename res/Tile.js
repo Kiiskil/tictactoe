@@ -46,8 +46,6 @@ Tile.prototype.press = function(player,board) {
     else{
         board.doom--;
     }
-    //console.log("Location " + this.locx + " "+ this.locy + " " + this.class);
-    //console.log("AAAAA"+this.class)
 }
 
 Tile.prototype.checMax = function(player,tmp){
@@ -65,7 +63,6 @@ Tile.prototype.checMax = function(player,tmp){
 Tile.prototype.win = function(player,player1,boardy){
     let tmp = 0;
     name = player.name;
-    let comp_board=boardy;
     //console.log(board);
     player.winrow = 1;
 
@@ -73,14 +70,14 @@ Tile.prototype.win = function(player,player1,boardy){
         if(this.locx+i < grid_size && boardy.game[this.locx+i][this.locy].class == null){break;}
         else if(this.locx+i < grid_size && boardy.game[this.locx+i][this.locy].class == name){
             player.winrow++;
-            this.clikcs[0] = 1;
+            this.clikcs.push(1);
         }
     }
     for(let i=1; i < winline; i++){
         if(this.locx-i >= 0 && boardy.game[this.locx-i][this.locy].class == null){break;}
         else if(this.locx-i >= 0 && boardy.game[this.locx-i][this.locy].class == name){
             player.winrow++;
-            this.clikcs[1] = 1;
+            this.clikcs.push(1);
         }
     }
     if(player.winrow >= winline){
@@ -93,14 +90,14 @@ Tile.prototype.win = function(player,player1,boardy){
         if(this.locy+i < grid_size && boardy.game[this.locx][this.locy+i].class == null){break;}
         else if(this.locy+i < grid_size && boardy.game[this.locx][this.locy+i].class == name){
             player.winrow++;
-            this.clikcs[2] = 1;
+            this.clikcs.push(1);
         }
     }
     for(let i=1; i < winline; i++){
         if(this.locy-i >= 0 && boardy.game[this.locx][this.locy-i].class == null){break;}
         else if(this.locy-i >= 0 && boardy.game[this.locx][this.locy-i].class == name){
             player.winrow++;
-            this.clikcs[3] = 1;
+            this.clikcs.push(1);
         }
     }
     if(player.winrow >= winline){
@@ -113,14 +110,14 @@ Tile.prototype.win = function(player,player1,boardy){
         if(this.locx+i < grid_size && this.locy+i < grid_size && boardy.game[this.locx+i][this.locy+i].class == null){break;}
         else if(this.locx+i < grid_size && this.locy+i < grid_size && boardy.game[this.locx+i][this.locy+i].class == name){
             player.winrow++;
-            this.clikcs[4] = 1;
+            this.clikcs.push(1);
         }
     }
     for(let i=1; i < winline; i++){
         if(this.locy-i >= 0 && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy-i].class == null){break;}
         else if(this.locy-i >= 0 && this.locx-i >= 0 &&boardy.game[this.locx-i][this.locy-i].class == name){
             player.winrow++;
-            this.clikcs[5] = 1;
+            this.clikcs.push(1);
         }
     }
     if(player.winrow >= winline){
@@ -133,14 +130,14 @@ Tile.prototype.win = function(player,player1,boardy){
         if(this.locy + i < grid_size && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy+i].class == null){break;}
         else if(this.locy + i < grid_size && this.locx-i >= 0 && boardy.game[this.locx-i][this.locy+i].class == name){
             player.winrow++;
-            this.clikcs[6] = 1;
+            this.clikcs.push(1);
         }
     }
     for(let i=1; i < winline; i++){
         if(this.locy-i >= 0 && this.locx+i < grid_size && boardy.game[this.locx+i][this.locy-i].class == null){break;}
         else if(this.locy-i >= 0 && this.locx+i < grid_size && boardy.game[this.locx+i][this.locy-i].class == name){
             player.winrow++;
-            this.clikcs[7] = 1;
+            this.clikcs.push(1);
         }
     }
     if(player.winrow >= winline){
