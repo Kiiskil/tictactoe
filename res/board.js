@@ -1,3 +1,11 @@
+let boards = [];
+let winboards = [];
+let showBoard;
+
+let cols;
+let rows;
+const grid_size = 15;
+
 class Board {
     constructor(board){
         if(!board){
@@ -42,4 +50,33 @@ class Board {
         }
         return tmpBoard;
     }
+}
+
+function wipeBoard(){
+    automateToggle = false;
+    /* boards[0] = new Board();
+    boards[0].playerUno = myPlayer;
+    boards[0].playerDeux = playerNN; */
+    showBoard = boards[0].copy();
+    draw();
+}
+
+function seeBoard(){
+    //take user's argument as index of won boards, and show that board
+    wipeBoard();
+     let bId = parseInt(document.getElementById("winBoard").value);
+     bId--;
+    if(bId>=0 && bId <winboards.length){
+        showBoard = winboards[bId].copy();
+        bId++;
+        consoleLog("Checking number "+bId +" finished board: "+ showBoard.name);
+        automateToggle = true;
+    }
+    else{
+        consoleLog("Either bad language or there is no winning tables");
+        wipeBoard();
+    };
+    winner = showBoard.playerUno;
+    winner1 = showBoard.playerDeux;
+    draw();
 }

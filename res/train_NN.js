@@ -1,3 +1,5 @@
+let trainingData = [];
+
 function generateTrainingData(){
     let trainData = [];
     let trainInputs = [225];

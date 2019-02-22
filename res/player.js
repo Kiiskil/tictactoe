@@ -1,3 +1,8 @@
+let winner;
+let winner1;
+
+let points_symb = 1;
+
 class Player1 {
     constructor (brain, gener) {
         //NeuralNetwork(inputs,hidden layers, outputs)

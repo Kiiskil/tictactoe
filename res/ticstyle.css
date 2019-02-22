@@ -60,6 +60,7 @@ body {background: #333;}
     float: left;
     width: 300;
     color: greenyellow;
+    word-wrap: break-word;
 }
 #playLoggerDiv{
     overflow: hidden;
@@ -75,6 +76,7 @@ body {background: #333;}
     float: left;
     width: 300;
     color: greenyellow;
+    word-wrap: break-word;
 }
 #canvasFrame{
     float: left;

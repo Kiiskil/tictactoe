@@ -1,3 +1,6 @@
+const doom = 5;
+let w = 30;
+
 function Tile(x, y, w) {
     this.x = x;
     this.y = y;
