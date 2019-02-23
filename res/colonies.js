@@ -1,4 +1,4 @@
-let colony_size = 10;////
+let colony_size = 30;////
 
 let colony1 = [colony_size];
 let colony2 = [colony_size];
