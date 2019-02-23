@@ -19,7 +19,7 @@ let WGratio = 0;
 let results =[];
 
 const target = 100;
-let pointsConn = 3;
+let pointsConn = 5;
 
 let automateToggle = false;
 let autoRounds= 0;
@@ -75,7 +75,7 @@ function mousePressed() {
 //calls for new generation 
 //also every player's points are calculated here.
 function gameOver(board,player,player1){
-    let resultsTMP = [];
+    //let resultsTMP = [];
     draw();
     for(let i=0; i < cols; i++){
         for(let j=0; j < rows; j++){
@@ -96,7 +96,7 @@ function gameOver(board,player,player1){
     if(player.win){
         //if any player wins
         winboards.push(board.copy());
-        player.points += 50;
+        player.points += 100;
         player.wins += 1;
         results.push(" Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString());
         results.push("Stored at: "+winboards.length);
@@ -104,10 +104,11 @@ function gameOver(board,player,player1){
         wonGames++;
         
         if(player.name == "myPlayer" || player.name == "playerNN"){
-            player.points += 100;
-            //new generation
+            player.points += 50;
+            //at colonies.js
             starta(1);
             if(!automateToggle){
+                //at colonies.js
                 play();
                 automateToggle = true;
             }
@@ -115,7 +116,7 @@ function gameOver(board,player,player1){
     }
     else {
         //if result of game is draw
-        resultsTMP[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
+        //resultsTMP[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = boardNN.copyEmpty();
             //new boards
@@ -126,11 +127,15 @@ function gameOver(board,player,player1){
         }
         else{
             //all other stalled games are restarted without new generation
-            board = board.copyEmpty();
+            console.log(boards.indexOf(board));
+            boards.splice(boards.indexOf(board));
+            colony1.splice(colony1.indexOf(player));
+            colony2.splice(colony2.indexOf(player1));
+            //board = board.copyEmpty();
             stalledGames++;
         }
     }
-    results.push(resultsTMP.join());
+   //results.push(resultsTMP.join());
 }
 
 function draw(){
@@ -148,7 +153,7 @@ function draw(){
     document.getElementById("winCount").innerHTML += "Colony size: " + colony1.length+"<br>";
     document.getElementById("winCount").innerHTML += "Ratio of number of player won games over stalled games:  " +  WGratio.toFixed(4)+"<br>";
     document.getElementById("winCount").innerHTML += "There are currently " + winboards.length + " won boards." + "<br>";
-    document.getElementById("winCount").innerHTML += "There are currently " + results.length + " games played." + "<br>";
+    document.getElementById("winCount").innerHTML += "There are currently " + (wonGames+stalledGames) + " games played." + "<br>";
     //document.getElementById("muuta").innerHTML = 
 }
 

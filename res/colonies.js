@@ -61,16 +61,18 @@ function play(){
     let genInfoGen = [];
     consoleLog("Playing...");
         for(let i = 0; i < playRounds;i++){
-            for(let j = 1; j < colony_size; j++){
+            for(let j = 1; j < boards.length; j++){
+                console.log(j);
                 if(colony2[j].myTurn){
                     colony2[j].think(boards[j], colony1[j])
                 }
+                //because game got spliced at the think-function above, it bugs out at next think.
                 else if(colony1[j].myTurn){
                     colony1[j].think(boards[j], colony2[j]);
                 }
             } 
         };
-    genInfoGen[0] = "GEN: "+colony1[1].generation.toString()+ ", RATIO: "+WGratio.toFixed(2).toString()+", MAX FITN: "+fitMax.toFixed(2).toString();
+    genInfoGen[0] = "GEN: "+colony1[0].generation.toString()+ ", RATIO: "+WGratio.toFixed(2).toString()+", MAX FITN: "+fitMax.toFixed(2).toString();
     genInfo.push(genInfoGen);
     consoleLog("All games finished.");
     consoleLog(genInfo[genInfo.length-1]);
