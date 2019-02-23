@@ -31,10 +31,10 @@ function colonize(){
         colony1[i] = new Player1();
         colony1[i].name = "Teppo"+i;
         colony1[i].myTurn = true;
-        //colony1[i].train();
+        colony1[i].train();
         colony2[i] = new Player2();
         colony2[i].name = "Liisa"+i;
-        //colony2[i].train();
+        colony2[i].train();
         boards[i] = new Board();
         boards[i].name = "Lauta" + i;
         boards[i].playerUno = colony1[i];

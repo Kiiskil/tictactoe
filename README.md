@@ -6,7 +6,7 @@ Iiro Laukkanen, 2019
 
 Normal Tic-Tac-Toe, but there is an opponent which is controlled by NN.
 Idea is to check how training of NN happens.
-
+I am still fiddling with this, but I guess really the next thing is to add a better NN, maybe for that to another project, and doublecheck the fitness/point calculations 
 #Next Id'd like to have the logscreens update as calculations are ongoing
 #Next I want to add a training-mode, where NN can iterate over set amount of generations or some other goal.
     #Automate either myPlayer or mouseclick. OF course it's myPlayer, but I have to figure out how to stop the iterations OR how to start, if stop is automated. !!DONE!!
