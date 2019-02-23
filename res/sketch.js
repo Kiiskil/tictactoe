@@ -88,27 +88,15 @@ function gameOver(board,player,player1){
         }
     }
     player.myTurn = false;
-    player.points += player.wins * 250;
-    if(player.win==0){
-        player.points -=50;
-        if(player.points<0){
-            player.points = 0;
-        }
-    }
-
+    player.points += player.wins * 25;
+   
     player1.myTurn = false;
-    player1.points += player1.wins * 250;
-    if(player1.win==0){
-        player1.points -=50;
-        if(player1.points<0){
-            player1.points = 0;
-        }
-    }
+    player1.points += player1.wins * 25;
 
     if(player.win){
         //if any player wins
         winboards.push(board.copy());
-        player.points += 100;
+        player.points += 50;
         player.wins += 1;
         results.push(" Player " + player.name.toString() + " wins at board"+ boards.indexOf(board).toString());
         results.push("Stored at: "+winboards.length);
