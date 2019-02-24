@@ -1,4 +1,4 @@
-let colony_size = 30;////
+let colony_size = 120;////
 
 let colony1 = [colony_size];
 let colony2 = [colony_size];
@@ -46,12 +46,19 @@ function starta(newGen){
         colony1 = nextGeneration(colony1);
         colony2 = nextGeneration(colony2);
         boards[0] = boards[0].copyEmpty();
+        console.log(colony1.length)
     }
     colony1.forEach(player => {
         player.myTurn = true;
     });
     for(let i = 1; i < colony_size; i++){
-        boards[i] = boards[i].copyEmpty();
+        if(i<boards.length){
+            boards[i] = boards[i].copyEmpty();
+        }
+        else{
+            boards[i] = new Board();
+            boards[i].name = "Lauta" + i;
+        }
     }
     consoleLog("Generation "+ colony1[1].generation +" have been born.");
 }
@@ -62,7 +69,7 @@ function play(){
     consoleLog("Playing...");
         for(let i = 0; i < playRounds;i++){
             for(let j = 1; j < boards.length; j++){
-                console.log(j);
+                //console.log(j);
                 if(colony2[j].myTurn){
                     colony2[j].think(boards[j], colony1[j])
                 }

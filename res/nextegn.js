@@ -3,7 +3,11 @@ function nextGeneration(colony){
     calculateFitness(colony);
     for(let i = 0; i < colony_size; i++){
         colony1x[i] = pickOne(colony);
-        colony1x[i].name = colony[i].name;
+        if (i < colony.length){
+            colony1x[i].name = colony[i].name;
+        }
+        else if(i%2==0){colony1x[i].name = "Teppo"+1}
+        else{colony1x[i].name = "Liisa"+1}
     }
     return colony1x;
 }

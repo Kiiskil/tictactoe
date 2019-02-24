@@ -40,7 +40,7 @@ class Player2{
     }
 
     think(gridi, enemy){
-              console.log(this.name);
+              //console.log(this.name);
         let inputs = this.gridisize(gridi.game, enemy);
         //console.log(inputs);
         let outputs = this.brain.predict(inputs);
