@@ -119,6 +119,8 @@ function gameOver(board,player,player1){
         //resultsTMP[0] ="STALLED GAME at board " + boards.indexOf(board).toString();
         if(player.name == "myPlayer" || player.name == "playerNN"){
             boardNN = boardNN.copyEmpty();
+            player1.points = 0;
+            player.points = 0;
             //new boards
             starta(0);
             if(!automateToggle){
@@ -127,11 +129,13 @@ function gameOver(board,player,player1){
         }
         else{
             //all other stalled games are restarted without new generation
-            console.log(boards.indexOf(board));
+            /* console.log(boards.indexOf(board));
             boards.splice(boards.indexOf(board));
             colony1.splice(colony1.indexOf(player));
-            colony2.splice(colony2.indexOf(player1));
-            //board = board.copyEmpty();
+            col ony2.splice(colony2.indexOf(player1));*/
+            player1.points = 0;
+            player.points = 0;
+            board = board.copyEmpty();
             stalledGames++;
         }
     }

@@ -6,8 +6,6 @@ function nextGeneration(colony){
         if (i < colony.length){
             colony1x[i].name = colony[i].name;
         }
-        else if(i%2==0){colony1x[i].name = "Teppo"+1}
-        else{colony1x[i].name = "Liisa"+1}
     }
     return colony1x;
 }

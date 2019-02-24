@@ -1,4 +1,4 @@
-let colony_size = 120;////
+let colony_size = 35;////
 
 let colony1 = [colony_size];
 let colony2 = [colony_size];
@@ -46,7 +46,6 @@ function starta(newGen){
         colony1 = nextGeneration(colony1);
         colony2 = nextGeneration(colony2);
         boards[0] = boards[0].copyEmpty();
-        console.log(colony1.length)
     }
     colony1.forEach(player => {
         player.myTurn = true;
@@ -60,7 +59,7 @@ function starta(newGen){
             boards[i].name = "Lauta" + i;
         }
     }
-    consoleLog("Generation "+ colony1[1].generation +" have been born.");
+    consoleLog("Generation "+ colony1[1].generation +" have been born."); 
 }
 
 //iterate over rounds
@@ -73,7 +72,7 @@ function play(){
                 if(colony2[j].myTurn){
                     colony2[j].think(boards[j], colony1[j])
                 }
-                //because game got spliced at the think-function above, it bugs out at next think.
+                //because game got spliced at the think-function above (at gameOver()), it bugs out at next think.
                 else if(colony1[j].myTurn){
                     colony1[j].think(boards[j], colony2[j]);
                 }
